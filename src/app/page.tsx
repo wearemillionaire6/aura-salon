@@ -8,6 +8,7 @@ import { SectionHeader } from "@/components/layout/SectionHeader";
 import { FadeUp, StaggerList } from "@/components/motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Magnet } from "@/components/ui/Magnet";
 import { home } from "@/content";
 import { services, stylists, testimonials, getServiceBySlug } from "@/data";
 
@@ -313,16 +314,18 @@ export default function HomePage() {
               <p className="max-w-xl text-base text-[var(--color-bone-200)] sm:text-lg">
                 {home.finalCta.subhead}
               </p>
-              <Button
-                asChild
-                size="lg"
-                className="bg-[var(--color-terracotta-500)] text-[var(--color-bone-50)] hover:bg-[var(--color-terracotta-700)]"
-              >
-                <Link href={home.finalCta.href}>
-                  {home.finalCta.label}
-                  <ArrowRight className="ml-2 size-4" />
-                </Link>
-              </Button>
+              <Magnet strength={12}>
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-[var(--color-terracotta-500)] text-[var(--color-bone-50)] hover:bg-[var(--color-terracotta-700)] shadow-sm"
+                >
+                  <Link href={home.finalCta.href}>
+                    {home.finalCta.label}
+                    <ArrowRight className="ml-2 size-4" />
+                  </Link>
+                </Button>
+              </Magnet>
             </div>
           </FadeUp>
         </Container>

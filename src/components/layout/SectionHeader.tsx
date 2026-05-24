@@ -1,6 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+import { ShinyText } from "@/components/ui/ShinyText";
+
 export interface SectionHeaderProps {
   eyebrow?: string;
   title: string;
@@ -28,7 +30,7 @@ export function SectionHeader({
     >
       {eyebrow ? (
         <p className="text-xs font-sans uppercase tracking-[0.22em] text-[var(--color-ink-500)]">
-          {eyebrow}
+          <ShinyText speed="6s">{eyebrow}</ShinyText>
         </p>
       ) : null}
       <Tag className="font-display text-3xl leading-tight text-[var(--color-ink-900)] sm:text-4xl lg:text-5xl">
