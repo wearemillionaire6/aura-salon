@@ -19,6 +19,7 @@ export function ReviewStep() {
   const details = useBookingStore((s) => s.details);
   const submit = useBookingStore((s) => s.submit);
   const submitting = useBookingStore((s) => s.submitting);
+  const errors = useBookingStore((s) => s.errors);
   const prev = useBookingStore((s) => s.prev);
 
   const chosenServices = serviceIds
@@ -156,6 +157,15 @@ export function ReviewStep() {
             342 Bleecker St, New York, NY 10014
           </p>
         </div>
+
+        {errors.submit ? (
+          <p
+            role="alert"
+            className="text-sm text-[var(--color-destructive,#B43E2E)]"
+          >
+            {errors.submit}
+          </p>
+        ) : null}
 
         <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Button

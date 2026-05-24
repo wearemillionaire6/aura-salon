@@ -185,14 +185,35 @@ export const useBookingStore = create<BookingState & BookingActions>()(
         set((s) => ({ details: { ...s.details, ...patch } })),
 
       submit: async () => {
-        set({ submitting: true });
-        await new Promise((r) => setTimeout(r, 1200));
-        set({
-          submitting: false,
-          step: "confirmed",
-          confirmationRef: generateRef(),
-          slotLockUntil: null,
-        });
+        const s = get();
+        set({ submitting: true, errors: {} });
+        try {
+          const { initiateBooking } = await import("@/app/book/actions");
+          const res = await initiateBooking({
+            serviceIds: s.serviceIds,
+            addOnIds: s.addOnIds,
+            stylistId: s.stylistId,
+            date: s.date!,
+            time: s.time!,
+            details: {
+              name: s.details.name,
+              email: s.details.email,
+              phone: s.details.phone,
+              notes: s.details.notes,
+            },
+          });
+          if (res?.error) {
+            set({ submitting: false, errors: { submit: res.error } });
+          } else if (res?.checkoutUrl) {
+            // Redirect to Stripe checkout
+            window.location.href = res.checkoutUrl;
+          }
+        } catch (e: any) {
+          set({
+            submitting: false,
+            errors: { submit: e.message || "Failed to submit booking" },
+          });
+        }
       },
 
       reset: () => set(initial),

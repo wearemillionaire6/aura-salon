@@ -17,15 +17,27 @@ function BookingWizardInner() {
   const step = useBookingStore((s) => s.step);
   const params = useSearchParams();
 
-  // Deep-link: preselect service / stylist via query params
+  // Deep-link: preselect service / stylist via query params, and handle Stripe checkout redirects
   const setServiceFromSlug = useBookingStore((s) => s.setServiceFromSlug);
   const setStylistFromSlug = useBookingStore((s) => s.setStylistFromSlug);
+  const goTo = useBookingStore((s) => s.goTo);
+
   useEffect(() => {
     const svc = params.get("service");
     const sty = params.get("stylist");
+    const stepParam = params.get("step");
+    const refParam = params.get("reference");
+
     if (svc) setServiceFromSlug(svc);
     if (sty) setStylistFromSlug(sty);
-  }, [params, setServiceFromSlug, setStylistFromSlug]);
+
+    if (stepParam === "confirmed") {
+      if (refParam) {
+        useBookingStore.setState({ confirmationRef: refParam });
+      }
+      goTo("confirmed");
+    }
+  }, [params, setServiceFromSlug, setStylistFromSlug, goTo]);
 
   // If confirmed step, render full-bleed confirmation
   if (step === "confirmed") {

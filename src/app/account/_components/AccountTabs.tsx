@@ -53,8 +53,6 @@ import { formatPrice, formatDuration } from "@/lib/booking-helpers";
 import { cn } from "@/lib/utils";
 import {
   accountUser,
-  upcomingAppointments,
-  pastAppointments,
   favoriteServiceIds,
   favoriteStylistIds,
   loyaltyCatalog,
@@ -224,9 +222,15 @@ function UpcomingCard({ appt }: { appt: MockAppointment }) {
                 </DialogClose>
                 <Button
                   variant="destructive"
-                  onClick={() => {
+                  onClick={async () => {
                     setOpenCancel(false);
-                    toast.success("Appointment cancelled. A confirmation email is on its way.");
+                    const { cancelBooking } = await import("../actions");
+                    const res = await cancelBooking(appt.id);
+                    if (res?.error) {
+                      toast.error(res.error);
+                    } else {
+                      toast.success("Appointment cancelled. A confirmation email is on its way.");
+                    }
                   }}
                 >
                   Confirm cancellation
@@ -449,7 +453,7 @@ type ProfileForm = {
   marketing: boolean;
 };
 
-function ProfilePanel() {
+function ProfilePanel({ customer }: { customer: any }) {
   const {
     register,
     handleSubmit,
@@ -458,23 +462,33 @@ function ProfilePanel() {
     formState: { errors, isSubmitting },
   } = useForm<ProfileForm>({
     defaultValues: {
-      name: accountUser.name,
-      email: accountUser.email,
-      phone: accountUser.phone,
-      notes: accountUser.notes,
-      sms: accountUser.preferences.sms,
-      email_opt: accountUser.preferences.email,
-      marketing: accountUser.preferences.marketing,
+      name: customer?.full_name || "",
+      email: customer?.email || "",
+      phone: customer?.phone || "",
+      notes: customer?.notes || "",
+      sms: true,
+      email_opt: true,
+      marketing: false,
     },
     mode: "onBlur",
-  } as { defaultValues: ProfileForm; mode: "onBlur"; resolver?: Resolver<ProfileForm> });
+  });
 
   const sms = watch("sms");
   const emailOpt = watch("email_opt");
   const marketing = watch("marketing");
 
-  const onSubmit = handleSubmit(() => {
-    toast.success("Profile saved.");
+  const onSubmit = handleSubmit(async (values) => {
+    const { updateCustomerProfile } = await import("../actions");
+    const res = await updateCustomerProfile({
+      name: values.name,
+      phone: values.phone,
+      notes: values.notes,
+    });
+    if (res?.error) {
+      toast.error(res.error);
+    } else {
+      toast.success("Profile saved.");
+    }
   });
 
   const toggle = (key: "sms" | "email_opt" | "marketing", current: boolean) =>
@@ -578,7 +592,42 @@ function ProfilePanel() {
 
 /* ----------------------------- Main tabs ------------------------------- */
 
-export function AccountTabs() {
+export function AccountTabs({ customer, bookings }: { customer: any; bookings: any[] }) {
+  const formattedBookings = bookings.map((b) => {
+    const chosenServices = b.service_ids
+      .map((id: string) => services.find((x) => x.id === id))
+      .filter(Boolean) as any[];
+    const chosenAddOns = b.booking_addons || [];
+
+     const durationMin =
+      chosenServices.reduce((acc: number, s: any) => acc + s.durationMin, 0) +
+      chosenAddOns.reduce((acc: number, a: any) => acc + 15, 0);
+
+    const totalUSD =
+      chosenServices.reduce((acc: number, s: any) => acc + s.priceUSD, 0) +
+      chosenAddOns.reduce((acc: number, a: any) => acc + (a.price_cents / 100), 0);
+
+    return {
+      id: b.id,
+      ref: b.reference,
+      stylistId: b.stylist_id || "any",
+      serviceIds: b.service_ids,
+      date: b.booking_date,
+      time: b.start_time.substring(0, 5),
+      durationMin,
+      priceUSD: totalUSD,
+      status: b.status,
+    };
+  });
+
+  const todayStr = new Date().toISOString().split("T")[0];
+  const upcomingAppointments = formattedBookings.filter(
+    (b) => b.date >= todayStr && b.status !== "cancelled" && b.status !== "completed"
+  );
+  const pastAppointments = formattedBookings.filter(
+    (b) => b.date < todayStr || b.status === "completed" || b.status === "cancelled"
+  );
+
   return (
     <Tabs defaultValue="upcoming" className="w-full gap-6">
       <TabsList className="grid h-auto w-full grid-cols-2 gap-1 bg-[var(--color-bone-100)] p-1 sm:grid-cols-5">
@@ -660,16 +709,16 @@ export function AccountTabs() {
             </CardTitle>
             <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--color-ink-500)]">
               <span className="inline-flex items-center gap-1.5">
-                <Mail className="size-3" /> {accountUser.email}
+                <Mail className="size-3" /> {customer?.email}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <Phone className="size-3" /> {accountUser.phone}
+                <Phone className="size-3" /> {customer?.phone}
               </span>
-              <span>Member since {format(parseISO(accountUser.joined), "MMM yyyy")}</span>
+              <span>Member since {customer?.created_at ? format(parseISO(customer.created_at), "MMM yyyy") : "—"}</span>
             </p>
           </CardHeader>
           <CardContent className="px-6">
-            <ProfilePanel />
+            <ProfilePanel customer={customer} />
           </CardContent>
         </Card>
       </TabsContent>

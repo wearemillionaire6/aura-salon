@@ -40,10 +40,7 @@ import {
 
 import { SectionHeader } from "@/components/layout/SectionHeader";
 import {
-  activityFeed,
-  kpis,
   sidebarNav,
-  todaysAppointments,
   type SidebarIconName,
 } from "@/lib/admin-data";
 import { cn } from "@/lib/utils";
@@ -177,16 +174,27 @@ function KpiCard({ label, value, sub, Icon }: KpiCardProps) {
   );
 }
 
-export function DashboardShell() {
+interface DashboardShellProps {
+  kpis: {
+    bookingsToday: number;
+    revenueToday: number;
+    occupancyPct: number;
+    newClientsThisWeek: number;
+  };
+  todaysAppointments: any[];
+  activityFeed: any[];
+}
+
+export function DashboardShell({ kpis, todaysAppointments, activityFeed }: DashboardShellProps) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   return (
     <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-foreground)]">
-      {/* Demo banner */}
-      <div className="flex items-center justify-center gap-2 border-b border-[var(--color-border)] bg-[var(--color-terracotta-500)]/10 px-4 py-2 text-xs text-[var(--color-terracotta-700)]">
+      {/* Live status banner */}
+      <div className="flex items-center justify-center gap-2 border-b border-[var(--color-border)] bg-[var(--color-sage-400)]/10 px-4 py-2 text-xs text-[var(--color-sage-600)]">
         <Info className="size-3.5" />
         <span>
-          Demo dashboard — data is mocked. Actions are illustrative only.
+          Live dashboard — connected to real Supabase database.
         </span>
       </div>
 
@@ -317,7 +325,7 @@ export function DashboardShell() {
                 </div>
               </div>
 
-              <DayCalendar />
+              <DayCalendar appointments={todaysAppointments} />
             </section>
 
             {/* Activity */}
@@ -360,7 +368,7 @@ export function DashboardShell() {
                   </ul>
                   <Separator className="my-4" />
                   <div className="flex items-center justify-between text-xs text-[var(--color-ink-500)]">
-                    <span>Showing 5 of 5 events</span>
+                    <span>Showing {activityFeed.length} recent event{activityFeed.length === 1 ? "" : "s"}</span>
                     <Button variant="link" className="h-auto p-0 text-xs">
                       View full log
                     </Button>

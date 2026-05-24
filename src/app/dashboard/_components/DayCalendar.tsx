@@ -16,7 +16,6 @@ import {
 import { stylists } from "@/data";
 import type { Stylist } from "@/data";
 import {
-  todaysAppointments,
   type TodaysAppointment,
 } from "@/lib/admin-data";
 import { formatDuration, formatPrice } from "@/lib/booking-helpers";
@@ -126,20 +125,20 @@ function AppointmentBlock({ appt, onClick }: AppointmentBlockProps) {
   );
 }
 
-export function DayCalendar() {
+export function DayCalendar({ appointments = [] }: { appointments?: TodaysAppointment[] }) {
   const [selected, setSelected] = React.useState<TodaysAppointment | null>(
     null,
   );
 
   const apptsByStylist = React.useMemo(() => {
     const map = new Map<string, TodaysAppointment[]>();
-    for (const a of todaysAppointments) {
+    for (const a of appointments) {
       const arr = map.get(a.stylistId) ?? [];
       arr.push(a);
       map.set(a.stylistId, arr);
     }
     return map;
-  }, []);
+  }, [appointments]);
 
   const hourLabels = Array.from(
     { length: END_HOUR - START_HOUR + 1 },
