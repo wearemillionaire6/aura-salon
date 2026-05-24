@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Container } from "./Container";
 import { cn } from "@/lib/utils";
 import { Magnet } from "@/components/ui/Magnet";
-import { DecryptedText } from "@/components/ui/DecryptedText";
 
 export interface CtaLink { label: string; href: string }
 
@@ -45,7 +44,7 @@ export function PageHero({
               </p>
             ) : null}
             <h1 className="font-display text-4xl leading-[1.05] text-[var(--color-ink-900)] sm:text-5xl lg:text-6xl">
-              <DecryptedText text={headline} useInView={false} delay={200} />
+              {headline}
             </h1>
             {subhead ? (
               <p className="max-w-xl text-lg text-[var(--color-ink-500)]">{subhead}</p>

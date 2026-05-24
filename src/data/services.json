@@ -11,7 +11,7 @@
     "includes": ["Consultation", "Shampoo & scalp treatment", "Precision cut", "Finished blow-dry"],
     "addOnIds": ["addon-deep-condition", "addon-gloss", "addon-scalp-ritual"],
     "eligibleStylistIds": ["sty-elena", "sty-marcus", "sty-priya"],
-    "image": "https://images.unsplash.com/photo-1560869713-da86bd4f31ba?w=1200&q=80"
+    "image": "/images/services/haircut.png"
   },
   {
     "id": "svc-single-process",
@@ -39,7 +39,7 @@
     "includes": ["Color mapping", "Hand-painted lightener", "Toner & gloss", "Olaplex bond builder", "Cut & style finish"],
     "addOnIds": ["addon-gloss", "addon-deep-condition", "addon-olaplex"],
     "eligibleStylistIds": ["sty-elena", "sty-priya"],
-    "image": "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=1200&q=80"
+    "image": "/images/services/color.png"
   },
   {
     "id": "svc-glaze-gloss",
@@ -105,7 +105,7 @@
     "includes": ["Gel removal (if needed)", "Shape & cuticle care", "Base + color + top", "Cured under LED", "Cuticle oil finish"],
     "addOnIds": ["addon-french-finish"],
     "eligibleStylistIds": ["sty-jules"],
-    "image": "https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=1200&q=80"
+    "image": "/images/services/manicure.png"
   },
   {
     "id": "svc-aura-facial",
@@ -118,7 +118,7 @@
     "includes": ["Skin analysis", "Double cleanse", "Custom enzyme peel", "Extractions (optional)", "LED therapy", "Lymphatic massage"],
     "addOnIds": ["addon-led-boost", "addon-eye-treatment"],
     "eligibleStylistIds": ["sty-naomi"],
-    "image": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&q=80"
+    "image": "/images/services/facial.png"
   },
   {
     "id": "svc-microcurrent-lift",
@@ -131,7 +131,7 @@
     "includes": ["Cleanse & prep", "Conductive gel application", "Microcurrent sculpt (face & neck)", "Cooling mask", "SPF finish"],
     "addOnIds": ["addon-led-boost", "addon-eye-treatment"],
     "eligibleStylistIds": ["sty-naomi"],
-    "image": "https://images.unsplash.com/photo-1596178065887-1198b6148b2b?w=1200&q=80"
+    "image": "/images/services/microcurrent.png"
   },
   {
     "id": "svc-dermaplane-glow",
@@ -170,7 +170,7 @@
     "includes": ["Intake & pressure preference", "Extended full-body massage", "Hot towels", "Optional aromatherapy", "Recovery tea"],
     "addOnIds": ["addon-cbd-balm", "addon-hot-stones"],
     "eligibleStylistIds": ["sty-theo"],
-    "image": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&q=80"
+    "image": "/images/services/massage.png"
   },
   {
     "id": "svc-body-polish-wrap",
