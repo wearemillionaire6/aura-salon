@@ -36,15 +36,20 @@ export async function POST(req: Request) {
       console.log(`Fulfilling booking: ${bookingId} (Ref: ${reference})`);
       
       const supabase = createAdminClient();
-      
-      const { data: booking, error: updateError } = await supabase
+      const { data: success, error: updateError } = await supabase
+        .rpc("confirm_booking_admin", {
+          booking_uuid: bookingId,
+          payment_intent: typeof session.payment_intent === "string" ? session.payment_intent : null,
+        });
+
+      if (updateError || !success) {
+        console.error("Failed to update booking status in webhook:", updateError);
+        return NextResponse.json({ error: "Database update failed" }, { status: 500 });
+      }
+
+      // Fetch booking details to send confirmation email
+      const { data: booking } = await supabase
         .from("bookings")
-        .update({
-          status: "confirmed",
-          stripe_payment_intent_id: typeof session.payment_intent === "string" ? session.payment_intent : null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", bookingId)
         .select(`
           id,
           reference,
@@ -52,11 +57,12 @@ export async function POST(req: Request) {
           start_time,
           customer_id
         `)
+        .eq("id", bookingId)
         .single();
 
-      if (updateError) {
-        console.error("Failed to update booking status in webhook:", updateError);
-        return NextResponse.json({ error: "Database update failed" }, { status: 500 });
+      if (!booking) {
+        console.error("Booking not found after confirmation in webhook");
+        return NextResponse.json({ error: "Booking not found" }, { status: 404 });
       }
 
       console.log("Booking successfully confirmed in DB:", booking);
