@@ -1,0 +1,66 @@
+[
+  {
+    "id": "tst-001",
+    "name": "Sasha Bennett",
+    "rating": 5,
+    "text": "Priya fixed a color correction I'd been wearing for almost a year. She actually wrote the plan out for me before we started, and we did it across two visits like she said. Worth every minute.",
+    "serviceSlug": "highlights-balayage",
+    "date": "2026-04-12"
+  },
+  {
+    "id": "tst-002",
+    "name": "Daniel Reyes",
+    "rating": 5,
+    "text": "First haircut from Marcus and I'm not going anywhere else. He cut my curls dry, in sections, the way they actually fall. Three weeks in and it still looks like the day I left.",
+    "serviceSlug": "signature-cut-and-style",
+    "date": "2026-04-26"
+  },
+  {
+    "id": "tst-003",
+    "name": "Mira Patel",
+    "rating": 5,
+    "text": "The Aura Facial with Naomi is the only one I've had where I felt like she was reading my skin instead of running a script. My makeup sat completely different the next morning.",
+    "serviceSlug": "the-aura-facial",
+    "date": "2026-05-03"
+  },
+  {
+    "id": "tst-004",
+    "name": "Jordan Albright",
+    "rating": 5,
+    "text": "Theo found two knots I didn't even know I was carrying. I left feeling like I'd had a full reset, not just a massage. Already booked the next one.",
+    "serviceSlug": "massage-90",
+    "date": "2026-05-08"
+  },
+  {
+    "id": "tst-005",
+    "name": "Camille Okonkwo",
+    "rating": 5,
+    "text": "Jules's gel manicures last me past three weeks every time. The shape is always exactly what I describe, and they don't rush the cuticle prep. The whole appointment feels intentional.",
+    "serviceSlug": "gel-manicure",
+    "date": "2026-04-30"
+  },
+  {
+    "id": "tst-006",
+    "name": "Lena Hoffman",
+    "rating": 4,
+    "text": "Beautiful balayage from Elena, exactly the dimension I wanted. Took a little longer than I expected on a Saturday, but the result speaks for itself.",
+    "serviceSlug": "highlights-balayage",
+    "date": "2026-03-21"
+  },
+  {
+    "id": "tst-007",
+    "name": "Olivia Carter",
+    "rating": 5,
+    "text": "Did the microcurrent series before my wedding and I genuinely noticed a difference by the third session. My jawline looked sharper in photos without anything looking 'done'.",
+    "serviceSlug": "microcurrent-lift",
+    "date": "2026-05-14"
+  },
+  {
+    "id": "tst-008",
+    "name": "Aaron Whitfield",
+    "rating": 4,
+    "text": "Booked the body polish and wrap as a gift for my wife and ended up loving it myself a month later. The hydration wrap is the part that surprised me.",
+    "serviceSlug": "body-polish-and-wrap",
+    "date": "2026-04-18"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "sty-elena",
+    "slug": "elena-vasquez",
+    "name": "Elena Vasquez",
+    "title": "Founder & Creative Director",
+    "specialties": ["Balayage", "Lived-in color", "Editorial cuts"],
+    "bio": "Elena opened Aura after fifteen years between Madrid and New York, including six on the color floor at a Bumble and bumble flagship. She teaches an annual hand-painting workshop for early-career colorists and still takes her own clients three days a week.",
+    "avatarUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80",
+    "yearsExperience": 15,
+    "instagramHandle": "@elenavasquez.hair",
+    "eligibleServiceIds": ["svc-cut-style", "svc-single-process", "svc-highlights-balayage", "svc-glaze-gloss", "svc-bridal-hair"]
+  },
+  {
+    "id": "sty-marcus",
+    "slug": "marcus-okafor",
+    "name": "Marcus Okafor",
+    "title": "Master Stylist",
+    "specialties": ["Curly & coily hair", "Sharp cuts", "Bridal styling"],
+    "bio": "Marcus trained in London under a Vidal Sassoon-lineage cutter before moving stateside in 2019. His chair runs heavy with curly clients who want a real shape, not just a wash-and-go. He keeps a small bridal book each summer.",
+    "avatarUrl": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&q=80",
+    "yearsExperience": 12,
+    "instagramHandle": "@marcus.cuts",
+    "eligibleServiceIds": ["svc-cut-style", "svc-glaze-gloss", "svc-bridal-hair"]
+  },
+  {
+    "id": "sty-priya",
+    "slug": "priya-shah",
+    "name": "Priya Shah",
+    "title": "Senior Colorist",
+    "specialties": ["Brunette dimension", "Grey-blending", "Color correction"],
+    "bio": "Priya is the colorist clients send their friends to when something has gone wrong elsewhere. She's especially careful with dark hair that's been over-lightened, and she keeps a strict consult policy: nothing happens at the bowl until the plan is on paper.",
+    "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80",
+    "yearsExperience": 10,
+    "instagramHandle": "@priya.color",
+    "eligibleServiceIds": ["svc-cut-style", "svc-single-process", "svc-highlights-balayage", "svc-glaze-gloss"]
+  },
+  {
+    "id": "sty-naomi",
+    "slug": "naomi-tanaka",
+    "name": "Naomi Tanaka",
+    "title": "Lead Skincare Therapist",
+    "specialties": ["Microcurrent", "Acne protocols", "Pre-event skin prep"],
+    "bio": "Naomi is a licensed esthetician with advanced training in microcurrent and chemical peels. She came to Aura from a dermatology practice in San Francisco, where she worked alongside the resident MDs on post-procedure recovery facials.",
+    "avatarUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80",
+    "yearsExperience": 9,
+    "instagramHandle": "@naomi.skin",
+    "eligibleServiceIds": ["svc-aura-facial", "svc-microcurrent-lift", "svc-dermaplane-glow"]
+  },
+  {
+    "id": "sty-theo",
+    "slug": "theo-laurent",
+    "name": "Theo Laurent",
+    "title": "Senior Massage Therapist",
+    "specialties": ["Deep tissue", "Pre/post-natal", "Sports recovery"],
+    "bio": "Theo holds a 1000-hour California license plus continuing certifications in pre-natal and sports massage. He works with several local runners and dancers, and his deep-tissue clients tend to book him on a standing six-week rotation.",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+    "yearsExperience": 11,
+    "instagramHandle": "@theo.bodywork",
+    "eligibleServiceIds": ["svc-massage-60", "svc-massage-90", "svc-body-polish-wrap"]
+  },
+  {
+    "id": "sty-jules",
+    "slug": "jules-moreau",
+    "name": "Jules Moreau",
+    "title": "Nail Specialist",
+    "specialties": ["Gel", "Structured manicures", "Nail art"],
+    "bio": "Jules came up through a Paris nail studio that specialized in editorial work and brought that obsessive prep standard with them. Expect a careful dry cuticle, a clean apex, and gel that lasts the full three weeks.",
+    "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80",
+    "yearsExperience": 8,
+    "instagramHandle": "@jules.nails",
+    "eligibleServiceIds": ["svc-aura-manicure", "svc-aura-pedicure", "svc-gel-manicure"]
+  }
+]

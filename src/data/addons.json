@@ -1,0 +1,72 @@
+[
+  {
+    "id": "addon-deep-condition",
+    "name": "Deep Conditioning Treatment",
+    "durationMin": 15,
+    "priceUSD": 28,
+    "description": "Restorative mask matched to your hair texture, processed under gentle warmth and rinsed at the bowl."
+  },
+  {
+    "id": "addon-gloss",
+    "name": "Clear Gloss Refresh",
+    "durationMin": 20,
+    "priceUSD": 45,
+    "description": "Acidic clear gloss to seal the cuticle, revive shine, and refresh tone between color appointments."
+  },
+  {
+    "id": "addon-olaplex",
+    "name": "Olaplex Bond Builder",
+    "durationMin": 15,
+    "priceUSD": 35,
+    "description": "Bond-rebuilding treatment added during or after color services. Especially useful with lightener."
+  },
+  {
+    "id": "addon-scalp-ritual",
+    "name": "Scalp Detox Ritual",
+    "durationMin": 20,
+    "priceUSD": 40,
+    "description": "Clarifying scalp scrub, pressure-point massage, and a calming tonic. Done at the bowl before your service."
+  },
+  {
+    "id": "addon-paraffin",
+    "name": "Paraffin Soak",
+    "durationMin": 15,
+    "priceUSD": 22,
+    "description": "Warm paraffin dip for hands or feet. Loosens stiff joints and leaves skin noticeably softer."
+  },
+  {
+    "id": "addon-french-finish",
+    "name": "French / Chrome Finish",
+    "durationMin": 15,
+    "priceUSD": 18,
+    "description": "Add a classic French tip, micro-French, or chrome powder finish to any manicure or pedicure."
+  },
+  {
+    "id": "addon-led-boost",
+    "name": "LED Light Therapy Boost",
+    "durationMin": 15,
+    "priceUSD": 35,
+    "description": "Ten-minute red and near-infrared LED session layered onto any facial to support collagen and calm redness."
+  },
+  {
+    "id": "addon-eye-treatment",
+    "name": "Brightening Eye Treatment",
+    "durationMin": 15,
+    "priceUSD": 32,
+    "description": "Cooling eye masks, peptide serum, and a brief lymphatic massage focused on the under-eye area."
+  },
+  {
+    "id": "addon-cbd-balm",
+    "name": "CBD Recovery Balm",
+    "durationMin": 0,
+    "priceUSD": 25,
+    "description": "Therapist works a broad-spectrum CBD balm into your tightest area during your massage. No added time."
+  },
+  {
+    "id": "addon-hot-stones",
+    "name": "Hot Stone Add-On",
+    "durationMin": 15,
+    "priceUSD": 30,
+    "description": "Heated basalt stones glided along the back and shoulders to loosen connective tissue before deep work."
+  }
+]

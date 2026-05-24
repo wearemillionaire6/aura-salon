@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette — Quiet Luxury */
+  --color-bone-50: #FBF8F3;
+  --color-bone-100: #F5EFE5;
+  --color-bone-200: #EBE2D1;
+  --color-ink-500: #5C5249;
+  --color-ink-700: #3A352E;
+  --color-ink-900: #1A1814;
+  --color-terracotta-500: #C77654;
+  --color-terracotta-700: #9B4F32;
+  --color-sage-400: #A8B196;
+  --color-sage-600: #6E7B5C;
+  --color-mist-200: #E3E5DF;
+  --color-mist-400: #B6BCB1;
+
+  /* shadcn semantic mappings */
+  --color-background: var(--color-bone-50);
+  --color-foreground: var(--color-ink-900);
+  --color-primary: var(--color-terracotta-500);
+  --color-primary-foreground: var(--color-bone-50);
+  --color-secondary: var(--color-sage-400);
+  --color-secondary-foreground: var(--color-ink-900);
+  --color-accent: var(--color-mist-200);
+  --color-accent-foreground: var(--color-ink-900);
+  --color-muted: var(--color-bone-100);
+  --color-muted-foreground: var(--color-ink-500);
+  --color-card: var(--color-bone-50);
+  --color-card-foreground: var(--color-ink-900);
+  --color-popover: var(--color-bone-50);
+  --color-popover-foreground: var(--color-ink-900);
+  --color-border: var(--color-mist-400);
+  --color-input: var(--color-mist-400);
+  --color-ring: var(--color-terracotta-500);
+  --color-destructive: #B43E2E;
+  --color-destructive-foreground: var(--color-bone-50);
+
+  /* Typography stacks */
+  --font-display: var(--font-display), "Fraunces", "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-sans), "Inter", "Söhne", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Shadows (subtle, editorial) */
+  --shadow-sm: 0 1px 2px rgba(26, 24, 20, 0.04);
+  --shadow-md: 0 4px 12px rgba(26, 24, 20, 0.06);
+  --shadow-lg: 0 12px 32px rgba(26, 24, 20, 0.08);
+}
+
+@layer base {
+  * {
+    @apply border-[var(--color-border)];
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-[var(--color-background)] text-[var(--color-foreground)] font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-tight;
+  }
+  /* Focus ring: clearly visible for keyboard nav */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  /* Selection */
+  ::selection {
+    background: var(--color-terracotta-500);
+    color: var(--color-bone-50);
+  }
+  /* Reduced motion respect */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

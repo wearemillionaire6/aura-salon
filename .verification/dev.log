@@ -1,0 +1,60 @@
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.120:3000
+✓ Ready in 256ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/bhaveshashokwaghmare/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/bhaveshashokwaghmare/Library/Mobile Documents/iCloud~md~obsidian/Documents/Proposal/05_projects/aura-salon/app/package-lock.json
+
+
+⨯ Error: Invalid src prop (https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1400&q=85) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at ignore-listed frames {
+  digest: '3227676402@E231'
+}
+ GET / 500 in 2.1s (next.js: 1664ms, application-code: 450ms)
+⨯ Error: Invalid src prop (https://images.unsplash.com/photo-1560869713-da86bd4f31ba?w=1200&q=80) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at ignore-listed frames {
+  digest: '1815853349@E231'
+}
+ GET /services 500 in 271ms (next.js: 176ms, application-code: 96ms)
+⨯ Error: Invalid src prop (https://images.unsplash.com/photo-1560869713-da86bd4f31ba?w=1200&q=80) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at ignore-listed frames {
+  digest: '2649019972@E231'
+}
+ GET /services/signature-cut-and-style 500 in 645ms (next.js: 479ms, generate-params: 274ms, application-code: 166ms)
+⨯ Error: Invalid src prop (https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at ignore-listed frames {
+  digest: '2622857903@E231'
+}
+ GET /team 500 in 238ms (next.js: 158ms, application-code: 81ms)
+⨯ Error: Invalid src prop (https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at ignore-listed frames {
+  digest: '1098758683@E231'
+}
+ GET /team/elena-vasquez 500 in 479ms (next.js: 409ms, generate-params: 219ms, application-code: 70ms)
+⨯ Error: Invalid src prop (https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=1200&q=80) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at ignore-listed frames {
+  digest: '378754557@E231'
+}
+ GET /gallery 500 in 321ms (next.js: 259ms, application-code: 62ms)
+⨯ Error: Invalid src prop (https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at ignore-listed frames {
+  digest: '1281377256@E231'
+}
+ GET /about 500 in 308ms (next.js: 226ms, application-code: 82ms)
+ GET /contact 200 in 369ms (next.js: 312ms, application-code: 57ms)
+ GET /faq 200 in 272ms (next.js: 228ms, application-code: 45ms)
+ GET /book 200 in 500ms (next.js: 444ms, application-code: 56ms)
+ GET /account 200 in 282ms (next.js: 210ms, application-code: 72ms)
+ GET /dashboard 200 in 249ms (next.js: 208ms, application-code: 41ms)
+[?25h

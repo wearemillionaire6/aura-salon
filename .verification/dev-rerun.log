@@ -1,0 +1,23 @@
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.120:3000
+✓ Ready in 272ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/bhaveshashokwaghmare/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/bhaveshashokwaghmare/Library/Mobile Documents/iCloud~md~obsidian/Documents/Proposal/05_projects/aura-salon/app/package-lock.json
+
+
+ GET / 200 in 533ms (next.js: 116ms, application-code: 418ms)
+ GET /services 200 in 117ms (next.js: 24ms, application-code: 92ms)
+ GET /services/signature-cut-and-style 200 in 428ms (next.js: 277ms, generate-params: 252ms, application-code: 151ms)
+ GET /team 200 in 92ms (next.js: 24ms, application-code: 68ms)
+ GET /team/elena-vasquez 200 in 307ms (next.js: 237ms, generate-params: 212ms, application-code: 70ms)
+ GET /gallery 200 in 67ms (next.js: 15ms, application-code: 52ms)
+ GET /about 200 in 92ms (next.js: 25ms, application-code: 67ms)
+ GET /book 200 in 94ms (next.js: 16ms, application-code: 78ms)
+ GET /faq 200 in 61ms (next.js: 16ms, application-code: 44ms)
+ GET /book?service=signature-cut-and-style 200 in 38ms (next.js: 4ms, application-code: 34ms)
+[?25h
