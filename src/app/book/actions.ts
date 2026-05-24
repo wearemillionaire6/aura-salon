@@ -50,38 +50,19 @@ export async function initiateBooking(payload: BookingPayload) {
     return { error: "This slot is no longer available. Please choose another time." };
   }
 
-  // 2. Find or create customer
-  let customerId: string;
-  const { data: existingCustomer } = await supabase
-    .from("customers")
-    .select("id")
-    .eq("email", details.email)
-    .maybeSingle();
+  // 2. Find or create customer via SECURITY DEFINER RPC to bypass SELECT/INSERT RLS restrictions for guest checkout
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: customerId, error: customerError } = await supabase
+    .rpc("get_or_create_customer", {
+      p_name: details.name,
+      p_email: details.email,
+      p_phone: details.phone,
+      p_auth_user_id: user?.id || null,
+    });
 
-  if (existingCustomer) {
-    customerId = existingCustomer.id;
-    await supabase
-      .from("customers")
-      .update({ full_name: details.name, phone: details.phone })
-      .eq("id", customerId);
-  } else {
-    const { data: { user } } = await supabase.auth.getUser();
-    const { data: newCustomer, error: customerError } = await supabase
-      .from("customers")
-      .insert({
-        full_name: details.name,
-        email: details.email,
-        phone: details.phone,
-        auth_user_id: user?.id || null,
-      })
-      .select("id")
-      .single();
-
-    if (customerError || !newCustomer) {
-      console.error("Customer creation error:", customerError);
-      return { error: "Failed to create customer profile." };
-    }
-    customerId = newCustomer.id;
+  if (customerError || !customerId) {
+    console.error("Customer lookup/creation error via RPC:", customerError);
+    return { error: "Failed to create or retrieve customer profile." };
   }
 
   // 3. Calculate Prices & Deposit
@@ -97,7 +78,8 @@ export async function initiateBooking(payload: BookingPayload) {
   const totalPrice = totalServicesPrice + totalAddonsPrice;
   const depositCents = Math.round(totalPrice * 0.2 * 100); // 20% deposit
 
-  // 4. Generate confirmation reference
+  // 4. Generate confirmation reference & Booking ID upfront (RLS-compliant insertion)
+  const bookingId = crypto.randomUUID();
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let ref = "AURA-";
   for (let i = 0; i < 6; i++) {
@@ -114,10 +96,60 @@ export async function initiateBooking(payload: BookingPayload) {
   const em = String(endMins % 60).padStart(2, "0");
   const endTime = `${eh}:${em}:00`;
 
-  // 5. Create pending booking
-  const { data: booking, error: bookingError } = await supabase
+  // 5. Determine Stripe Mode & Setup Checkout Session (if not mock)
+  const hostHeaders = await headers();
+  const origin = hostHeaders.get("origin") || "http://localhost:3000";
+
+  const isStripeMock = !process.env.STRIPE_SECRET_KEY || 
+                       process.env.STRIPE_SECRET_KEY.startsWith("sk_test_51MockKey") ||
+                       process.env.STRIPE_SECRET_KEY === "placeholder_until_active";
+
+  let stripeSessionId: string | null = null;
+  let checkoutUrl = "";
+  let bookingStatus = "pending";
+
+  if (isStripeMock) {
+    console.log(`[MOCK STRIPE CHECKOUT] Confirming booking immediately: ${bookingId} (Ref: ${ref})`);
+    bookingStatus = "confirmed";
+    checkoutUrl = `${origin}/book?step=confirmed&reference=${ref}&booking_id=${bookingId}`;
+  } else {
+    try {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: `Aura Salon Booking Deposit (${ref})`,
+                description: `Services: ${selectedServices.map(s => s.name).join(", ")}. Date: ${date} at ${time}.`,
+              },
+              unit_amount: depositCents,
+            },
+            quantity: 1,
+          },
+        ],
+        mode: "payment",
+        metadata: {
+          booking_id: bookingId,
+          reference: ref,
+        },
+        success_url: `${origin}/book?step=confirmed&reference=${ref}&booking_id=${bookingId}`,
+        cancel_url: `${origin}/book?step=review`,
+      });
+      stripeSessionId = session.id;
+      checkoutUrl = session.url || "";
+    } catch (stripeError: any) {
+      console.error("Stripe Checkout session creation error:", stripeError);
+      return { error: `Stripe payment setup error: ${stripeError.message}` };
+    }
+  }
+
+  // 6. Create booking (pure INSERT statement to avoid RETURNING/SELECT RLS restrictions)
+  const { error: bookingError } = await supabase
     .from("bookings")
     .insert({
+      id: bookingId,
       reference: ref,
       customer_id: customerId,
       stylist_id: stylistId === "any" ? null : stylistId,
@@ -125,68 +157,46 @@ export async function initiateBooking(payload: BookingPayload) {
       booking_date: date,
       start_time: time.includes(":") && time.split(":").length === 2 ? time + ":00" : time,
       end_time: endTime,
-      status: "pending",
+      status: bookingStatus,
       deposit_paid_cents: depositCents,
       special_requests: details.notes,
-    })
-    .select("id")
-    .single();
+      stripe_checkout_session_id: stripeSessionId,
+    });
 
-  if (bookingError || !booking) {
+  if (bookingError) {
     console.error("Booking creation error:", bookingError);
     return { error: "Failed to create booking." };
   }
 
-  // 6. Insert booking addons
+  // 7. Insert booking addons (pure INSERT statement)
   if (selectedAddons.length > 0) {
     const addonsToInsert = selectedAddons.map((a) => ({
-      booking_id: booking.id,
+      booking_id: bookingId,
       addon_id: a.id,
       addon_name: a.name,
       price_cents: Math.round(a.priceUSD * 100),
     }));
-    await supabase.from("booking_addons").insert(addonsToInsert);
+    const { error: addonsError } = await supabase.from("booking_addons").insert(addonsToInsert);
+    if (addonsError) {
+      console.error("Failed to insert booking addons:", addonsError);
+    }
   }
 
-  // 7. Create Stripe Checkout Session
-  try {
-    const hostHeaders = await headers();
-    const origin = hostHeaders.get("origin") || "http://localhost:3000";
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `Aura Salon Booking Deposit (${ref})`,
-              description: `Services: ${selectedServices.map(s => s.name).join(", ")}. Date: ${date} at ${time}.`,
-            },
-            unit_amount: depositCents,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      metadata: {
-        booking_id: booking.id,
+  // 8. If mock stripe, trigger confirmation email immediately
+  if (isStripeMock) {
+    try {
+      const { sendConfirmationEmail } = await import("@/lib/email/sender");
+      await sendConfirmationEmail({
+        email: details.email,
+        name: details.name,
         reference: ref,
-      },
-      success_url: `${origin}/book?step=confirmed&reference=${ref}&booking_id=${booking.id}`,
-      cancel_url: `${origin}/book?step=review`,
-    });
-
-    await supabase
-      .from("bookings")
-      .update({ stripe_checkout_session_id: session.id })
-      .eq("id", booking.id);
-
-    return { checkoutUrl: session.url };
-  } catch (stripeError: any) {
-    console.error("Stripe Checkout session creation error:", stripeError);
-    // Delete pending booking so it's not orphaned
-    await supabase.from("bookings").delete().eq("id", booking.id);
-    return { error: `Stripe payment setup error: ${stripeError.message}` };
+        date: date,
+        time: time,
+      });
+    } catch (emailErr) {
+      console.error("Failed to send confirmation email in mock flow:", emailErr);
+    }
   }
+
+  return { checkoutUrl };
 }
