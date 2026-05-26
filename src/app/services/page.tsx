@@ -1,106 +1,89 @@
-import { Container } from "@/components/layout/Container";
-import { PageHero } from "@/components/layout/PageHero";
-import { SectionHeader } from "@/components/layout/SectionHeader";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { services } from "@/data";
-import type { ServiceCategory } from "@/data/types";
-import { ArrowRight, Clock } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
-
-export const metadata = { title: "Services" };
+import Link from "next/link";
+import { services, type Service, type ServiceCategory } from "@/data";
 
 const CATEGORY_ORDER: ServiceCategory[] = ["Hair", "Nails", "Skin", "Spa"];
 
-const CATEGORY_SUBTITLE: Record<ServiceCategory, string> = {
-  Hair: "Cuts, color, and bridal styling — built around your texture, growth pattern, and the way you actually wear your hair.",
-  Nails: "Careful prep, non-toxic polish, and gel that lasts. Done in heated stone chairs at the back of the salon.",
-  Skin: "Facials, microcurrent, and dermaplaning led by a licensed esthetician with clinical training.",
-  Spa: "Massage and full-body treatments in a dim, quiet room — pressure shaped to what's tight that week.",
-};
+function groupByCategory(svcs: Service[]) {
+  const groups = new Map<ServiceCategory, Service[]>();
+  for (const cat of CATEGORY_ORDER) {
+    groups.set(cat, svcs.filter((s) => s.category === cat));
+  }
+  return groups;
+}
 
 export default function ServicesPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Services"
-        headline="What we do, and how long it takes."
-        subhead="Pricing is transparent; durations are realistic. We'll never make you guess."
-      />
+  const grouped = groupByCategory(services);
 
-      {CATEGORY_ORDER.map((category, idx) => {
-        const items = services.filter((s) => s.category === category);
-        if (items.length === 0) return null;
-        const isAlt = idx % 2 === 1;
+  return (
+    <main className="pt-32">
+      {/* Hero */}
+      <header className="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] mb-[var(--spacing-section-lg)]">
+        <span className="text-label-caps text-[var(--color-primary)] mb-4 block">The Full Menu</span>
+        <h1 className="text-display-lg-mobile md:text-display-lg max-w-3xl mb-6">Care, by hand.</h1>
+        <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl">
+          Hair, nails, skin, and bodywork in a quiet, considered space — by stylists who take the time to listen. Every appointment is booked with generous breathing room.
+        </p>
+      </header>
+
+      {/* Category sections */}
+      {CATEGORY_ORDER.map((cat, catIndex) => {
+        const catServices = grouped.get(cat) || [];
+        if (catServices.length === 0) return null;
+        const isEven = catIndex % 2 === 0;
+
         return (
           <section
-            key={category}
-            className={
-              isAlt
-                ? "border-y border-[var(--color-border)] bg-[var(--color-bone-100)] py-20 sm:py-24"
-                : "bg-[var(--color-bone-50)] py-20 sm:py-24"
-            }
+            key={cat}
+            className="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] mb-[var(--spacing-section-lg)]"
+            id={cat.toLowerCase()}
           >
-            <Container>
-              <SectionHeader
-                eyebrow={category}
-                title={`${category} services`}
-                subtitle={CATEGORY_SUBTITLE[category]}
-              />
-              <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {items.map((svc) => (
-                  <Card
-                    key={svc.id}
-                    className="overflow-hidden bg-[var(--color-bone-50)] py-0"
-                  >
-                    {svc.image ? (
-                      <div className="relative aspect-[5/3] w-full overflow-hidden bg-[var(--color-bone-200)]">
-                        <Image
-                          src={svc.image}
-                          alt={svc.name}
-                          fill
-                          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : null}
-                    <CardContent className="flex flex-col gap-4 py-6">
-                      <h3 className="font-display text-2xl leading-tight text-[var(--color-ink-900)]">
-                        {svc.name}
-                      </h3>
-                      <p className="text-sm text-[var(--color-ink-500)]">
-                        {svc.description.split(".")[0]}.
-                      </p>
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-ink-500)]">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Clock className="size-3.5" aria-hidden />
-                          {svc.durationMin} min
-                        </span>
-                        <span aria-hidden className="text-[var(--color-mist-400)]">
-                          ·
-                        </span>
-                        <span className="text-[var(--color-ink-900)]">
-                          {svc.priceFrom ? "from " : ""}${svc.priceUSD}
-                        </span>
-                      </div>
-                      <div className="pt-2">
-                        <Button asChild variant="outline" size="sm">
-                          <Link href={`/services/${svc.slug}`}>
-                            View details
-                            <ArrowRight className="ml-2 size-4" />
-                          </Link>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </Container>
+            {/* Category header with divider */}
+            <div className="flex items-center gap-4 mb-12">
+              {!isEven && <div className="h-px bg-[var(--color-outline-variant)]/20 flex-grow" />}
+              <h2 className="text-headline-md">{cat}</h2>
+              {isEven && <div className="h-px bg-[var(--color-outline-variant)]/20 flex-grow" />}
+            </div>
+
+            {/* Service cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--spacing-gutter)]">
+              {catServices.map((svc) => (
+                <div key={svc.id} className="group bg-[var(--color-surface-cream)] overflow-hidden">
+                  {svc.image && (
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <Image
+                        src={svc.image}
+                        alt={svc.name}
+                        width={600}
+                        height={338}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                  )}
+                  <div className="p-8">
+                    <span className="text-label-caps text-[var(--color-primary)] mb-2 block">
+                      {svc.durationMin} MIN · {svc.priceFrom ? "FROM " : ""}${svc.priceUSD}
+                    </span>
+                    <h3 className="text-headline-sm mb-4">{svc.name}</h3>
+                    <p className="text-body-sm text-[var(--color-on-surface-variant)] mb-8 line-clamp-3">
+                      {svc.description}
+                    </p>
+                    <Link
+                      href={`/book?service=${svc.slug}`}
+                      className="inline-flex items-center gap-2 border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-3 text-label-caps hover:bg-[var(--color-primary)] hover:text-[var(--color-on-primary)] transition-all duration-300"
+                    >
+                      Book Service
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
           </section>
         );
       })}
-    </>
+    </main>
   );
 }

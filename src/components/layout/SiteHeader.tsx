@@ -2,100 +2,120 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-  SheetHeader,
-} from "@/components/ui/sheet";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const NAV = [
+  { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Team", href: "/team" },
   { label: "Gallery", href: "/gallery" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const pathname = usePathname();
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  React.useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 transition-colors duration-200",
+        "fixed top-0 w-full z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-[var(--color-border)] bg-[color-mix(in_oklch,var(--color-bone-50)_85%,transparent)] backdrop-blur-md"
-          : "bg-transparent",
+          ? "bg-[var(--color-surface)]/95 shadow-sm border-b border-[var(--color-outline-variant)]/10 backdrop-blur-md"
+          : "bg-[var(--color-surface)]/90 backdrop-blur-md border-b border-[var(--color-outline-variant)]/10",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8 lg:px-12">
-        <Link href="/" className="font-display text-2xl tracking-tight text-[var(--color-ink-900)]">
-          Aura
+      <nav className="flex justify-between items-center h-20 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-headline-sm tracking-tight text-[var(--color-on-surface)] hover:opacity-80 transition-opacity"
+        >
+          Aura Salon &amp; Spa
         </Link>
 
-        <nav className="hidden gap-8 lg:flex" aria-label="Primary">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-sans text-[var(--color-ink-700)] transition-colors hover:text-[var(--color-terracotta-500)]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <Button asChild className="hidden sm:inline-flex">
-            <Link href="/book">
-              Book Now <ArrowRight className="ml-2 size-4" />
-            </Link>
-          </Button>
-
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
-                <Menu className="size-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[85vw] max-w-sm bg-[var(--color-bone-50)]">
-              <SheetHeader>
-                <SheetTitle className="font-display text-2xl">Aura</SheetTitle>
-              </SheetHeader>
-              <nav className="mt-8 flex flex-col gap-4 px-1" aria-label="Mobile">
-                {NAV.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-sans text-[var(--color-ink-900)] transition-colors hover:text-[var(--color-terracotta-500)]"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                <Button asChild className="mt-4 w-full">
-                  <Link href="/book" onClick={() => setOpen(false)}>
-                    Book Now <ArrowRight className="ml-2 size-4" />
-                  </Link>
-                </Button>
-              </nav>
-            </SheetContent>
-          </Sheet>
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-8">
+          {NAV.map((item) => {
+            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            const isHome = item.href === "/" && pathname === "/";
+            const active = isActive || isHome;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "text-label-caps transition-colors",
+                  active
+                    ? "text-[var(--color-primary)] border-b-2 border-[var(--color-primary)] pb-1"
+                    : "text-[var(--color-on-secondary-container)] hover:text-[var(--color-primary)]",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+          <Link
+            href="/book"
+            className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-3 text-label-caps hover:opacity-90 active:scale-95 transition-all"
+          >
+            Book Now
+          </Link>
         </div>
-      </div>
+
+        {/* Mobile toggle */}
+        <button
+          type="button"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden text-[var(--color-on-surface)] p-2"
+          aria-label="Toggle menu"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            {mobileOpen ? (
+              <path d="M18 6L6 18M6 6l12 12" />
+            ) : (
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            )}
+          </svg>
+        </button>
+      </nav>
+
+      {/* Mobile dropdown */}
+      {mobileOpen && (
+        <div className="md:hidden bg-[var(--color-surface)] border-t border-[var(--color-outline-variant)]/10 px-[var(--spacing-margin-mobile)] py-6">
+          <div className="flex flex-col gap-4">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-label-caps text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] transition-colors py-2"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/book"
+              className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-3 text-label-caps text-center hover:opacity-90 transition-all mt-2"
+              onClick={() => setMobileOpen(false)}
+            >
+              Book Now
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

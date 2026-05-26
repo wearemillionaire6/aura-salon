@@ -1,32 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Star, Sparkles, Leaf, Clock } from "lucide-react";
-
-import { Container } from "@/components/layout/Container";
-import { PageHero } from "@/components/layout/PageHero";
-import { SectionHeader } from "@/components/layout/SectionHeader";
-import { FadeUp, StaggerList } from "@/components/motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Magnet } from "@/components/ui/Magnet";
 import { home } from "@/content";
 import { services, stylists, testimonials, getServiceBySlug } from "@/data";
-
-const categoryCards: Array<{
-  label: "Hair" | "Nails" | "Skin" | "Spa";
-  blurb: string;
-}> = [
-  { label: "Hair", blurb: "Cuts, lived-in color, and considered finishes." },
-  { label: "Nails", blurb: "Dry-prep manicures, restorative pedicures." },
-  { label: "Skin", blurb: "Facials, microcurrent, dermaplane." },
-  { label: "Spa", blurb: "Massage, body wraps, slow appointments." },
-];
-
-function valuePropIcon(name: string) {
-  if (name === "Leaf") return <Leaf className="size-5" aria-hidden />;
-  if (name === "Clock") return <Clock className="size-5" aria-hidden />;
-  return <Sparkles className="size-5" aria-hidden />;
-}
 
 function pickFeaturedServices() {
   const slugs = [
@@ -41,7 +16,6 @@ function pickFeaturedServices() {
     .map((slug) => getServiceBySlug(slug))
     .filter((s): s is NonNullable<typeof s> => Boolean(s));
   if (matched.length >= 6) return matched.slice(0, 6);
-  // Fallback: pad with first services
   const seen = new Set(matched.map((s) => s.id));
   for (const svc of services) {
     if (matched.length >= 6) break;
@@ -53,283 +27,255 @@ function pickFeaturedServices() {
 export default function HomePage() {
   const featured = pickFeaturedServices();
   const featuredStylists = stylists.slice(0, 3);
-  const featuredTestimonials = testimonials.slice(0, 3);
 
   return (
-    <>
-      <PageHero
-        eyebrow={home.hero.eyebrow}
-        headline={home.hero.headline}
-        subhead={home.hero.subhead}
-        primaryCta={home.hero.primaryCta}
-        secondaryCta={home.hero.secondaryCta}
-        media="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1400&q=85"
-        mediaAlt="The front desk at Aura, warm oak under a brass pendant"
-      />
+    <main className="pt-20">
+      {/* ──── HERO ──── */}
+      <section className="px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto py-[var(--spacing-section-sm)] md:py-[var(--spacing-section-lg)]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--spacing-gutter)] items-center">
+          <div className="md:col-span-5 order-2 md:order-1">
+            <span className="text-label-caps text-[var(--color-outline)] tracking-widest block mb-4">
+              AURA SALON &amp; SPA · WEST VILLAGE
+            </span>
+            <h1 className="text-display-lg-mobile md:text-display-lg mb-6 leading-tight">
+              A destination salon for the way you actually live.
+            </h1>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)] mb-10 max-w-md">
+              Hair, nails, skin, and bodywork in a quiet, considered space — by stylists who take the time to listen.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/book"
+                className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-8 py-4 text-label-caps text-center hover:opacity-90 transition-all"
+              >
+                Book an appointment
+              </Link>
+              <Link
+                href="/team"
+                className="bg-[var(--color-surface-cream)] text-[var(--color-on-surface)] px-8 py-4 text-label-caps text-center border border-[var(--color-outline-variant)]/20 hover:bg-[var(--color-surface-container)] transition-all"
+              >
+                Meet the team
+              </Link>
+            </div>
+          </div>
+          <div className="md:col-span-7 order-1 md:order-2 mb-10 md:mb-0">
+            <div className="relative overflow-hidden aspect-[4/5] md:aspect-[1.2/1]">
+              <Image
+                src="/images/hero.png"
+                alt="Aura Salon Interior — warm oak under brass pendants"
+                fill
+                sizes="(min-width: 768px) 58vw, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* What we do */}
-      <section className="border-y border-[var(--color-border)] bg-[var(--color-bone-100)] py-20 sm:py-28">
-        <Container>
-          <FadeUp>
-            <SectionHeader
-              eyebrow="What we do"
-              title="Care, by hand."
-              subtitle="Hair, nails, skin, and bodywork. Four categories, one room, one bookable calendar."
-              align="center"
-              className="mx-auto items-center text-center"
-            />
-          </FadeUp>
-          <StaggerList className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {categoryCards.map((c) => (
+      {/* ──── CATEGORIES ──── */}
+      <section className="bg-[var(--color-surface-cream)] py-[var(--spacing-section-lg)] overflow-hidden">
+        <div className="px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-label-caps text-[var(--color-outline)] block mb-4">WHAT WE DO</span>
+            <h2 className="text-headline-md mb-4">Care, by hand.</h2>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl mx-auto">
+              Hair, nails, skin, and bodywork. Four categories, one room, one bookable calendar.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[var(--spacing-gutter)]">
+            {[
+              { label: "Hair", blurb: "Cuts, lived-in color, and considered finishes.", image: "/images/categories/hair.png" },
+              { label: "Nails", blurb: "Dry-prep manicures, restorative pedicures.", image: "/images/categories/nails.png" },
+              { label: "Skin", blurb: "Facials, microcurrent, dermaplane.", image: "/images/categories/skin.png" },
+              { label: "Spa", blurb: "Massage, body wraps, slow appointments.", image: "/images/categories/spa.png" },
+            ].map((c) => (
               <Link
                 key={c.label}
                 href={`/services?category=${c.label}`}
-                className="group block"
+                className="group bg-[var(--color-surface)] p-10 flex flex-col justify-between h-64 border border-[var(--color-outline-variant)]/10 hover:shadow-lg transition-all duration-300"
               >
-                <Card className="h-44 bg-[var(--color-bone-100)] transition-colors hover:bg-[var(--color-bone-200)]">
-                  <CardContent className="flex h-full flex-col items-start justify-between px-6 py-2">
-                    <p className="font-display text-2xl text-[var(--color-ink-900)]">
-                      {c.label}
-                    </p>
-                    <div className="flex w-full items-end justify-between">
-                      <p className="max-w-[14rem] text-sm text-[var(--color-ink-500)]">
-                        {c.blurb}
-                      </p>
-                      <ArrowRight
-                        className="size-4 text-[var(--color-ink-500)] transition-transform group-hover:translate-x-0.5"
-                        aria-hidden
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="flex justify-between items-start">
+                  <h3 className="text-headline-sm">{c.label}</h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[var(--color-outline)] group-hover:text-[var(--color-primary)] transition-colors">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                </div>
+                <p className="text-body-sm text-[var(--color-on-surface-variant)]">{c.blurb}</p>
               </Link>
             ))}
-          </StaggerList>
-        </Container>
+          </div>
+        </div>
       </section>
 
-      {/* Featured services */}
-      <section className="py-20 sm:py-28">
-        <Container>
-          <FadeUp>
-            <SectionHeader
-              eyebrow="Featured services"
-              title="A small menu, done well."
-              subtitle="Six of the appointments our regulars book most. The full list lives on the services page."
-            />
-          </FadeUp>
-          <StaggerList className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {/* ──── FEATURED SERVICES ──── */}
+      <section className="py-[var(--spacing-section-lg)] bg-[var(--color-surface)]" id="services">
+        <div className="px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
+          <div className="mb-16">
+            <span className="text-label-caps text-[var(--color-outline)] block mb-4">FEATURED SERVICES</span>
+            <h2 className="text-headline-md mb-4">A small menu, done well.</h2>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)]">Six of the appointments our regulars book most.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-16 gap-x-[var(--spacing-gutter)]">
             {featured.map((svc) => (
-              <Card
-                key={svc.id}
-                className="overflow-hidden bg-[var(--color-bone-50)] p-0"
-              >
-                {svc.image ? (
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--color-bone-200)]">
+              <div key={svc.id} className="group">
+                {svc.image && (
+                  <div className="aspect-square overflow-hidden mb-6 bg-[var(--color-surface-cream)]">
                     <Image
                       src={svc.image}
                       alt={svc.name}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover"
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   </div>
-                ) : null}
-                <CardContent className="flex flex-col gap-3 px-6 py-6">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-[10px] font-sans uppercase tracking-[0.18em] text-[var(--color-ink-500)]">
-                      {svc.category}
-                    </span>
-                    <span className="text-xs text-[var(--color-ink-500)]">
-                      {svc.durationMin} min · {svc.priceFrom ? "from " : ""}${svc.priceUSD}
-                    </span>
-                  </div>
-                  <h3 className="font-display text-xl text-[var(--color-ink-900)]">
-                    {svc.name}
-                  </h3>
-                  <p className="text-sm text-[var(--color-ink-500)] line-clamp-3">
-                    {svc.description}
-                  </p>
-                  <div className="mt-2">
-                    <Button asChild variant="outline" size="sm">
-                      <Link href={`/services/${svc.slug}`}>
-                        Book
-                        <ArrowRight className="ml-1 size-3.5" />
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                )}
+                <div className="flex justify-between items-baseline mb-2">
+                  <span className="text-label-caps text-[var(--color-outline)]">
+                    {svc.category.toUpperCase()} · {svc.durationMin} MIN · {svc.priceFrom ? "FROM " : ""}${svc.priceUSD}
+                  </span>
+                </div>
+                <h3 className="text-title-lg mb-3">{svc.name}</h3>
+                <p className="text-body-sm text-[var(--color-on-surface-variant)] mb-6 line-clamp-3">
+                  {svc.description}
+                </p>
+                <Link
+                  href={`/services/${svc.slug}`}
+                  className="inline-flex items-center gap-2 text-label-caps text-[var(--color-primary)] border-b border-[var(--color-primary)]/20 pb-1 hover:border-[var(--color-primary)] transition-all"
+                >
+                  Book
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
             ))}
-          </StaggerList>
-          <div className="mt-12 flex justify-center">
-            <Button asChild variant="outline" size="lg">
-              <Link href="/services">See the full menu</Link>
-            </Button>
           </div>
-        </Container>
+          <div className="mt-20 text-center">
+            <Link
+              href="/services"
+              className="px-12 py-5 text-label-caps border border-[var(--color-outline-variant)]/30 hover:bg-[var(--color-surface-cream)] transition-all"
+            >
+              See the full menu
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* Stylist spotlight */}
-      <section className="border-y border-[var(--color-border)] bg-[var(--color-bone-100)] py-20 sm:py-28">
-        <Container>
-          <FadeUp>
-            <SectionHeader
-              eyebrow="Stylist spotlight"
-              title="A few of the people behind the chair."
-              subtitle="Six stylists in all — every one of them takes their own consults."
-            />
-          </FadeUp>
-          <StaggerList className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {/* ──── STYLIST SPOTLIGHT ──── */}
+      <section className="py-[var(--spacing-section-lg)] bg-[var(--color-surface-cream)]" id="team">
+        <div className="px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-label-caps text-[var(--color-outline)] block mb-4">STYLIST SPOTLIGHT</span>
+            <h2 className="text-headline-md mb-4">A few of the people behind the chair.</h2>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)]">Six stylists in all — every one of them takes their own consults.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[var(--spacing-gutter)]">
             {featuredStylists.map((sty) => {
               const firstName = sty.name.split(" ")[0];
               return (
-                <Card key={sty.id} className="bg-[var(--color-bone-50)]">
-                  <CardContent className="flex flex-col items-center gap-4 px-6 py-6 text-center">
-                    <div className="relative size-28 overflow-hidden rounded-full bg-[var(--color-bone-200)]">
-                      <Image
-                        src={sty.avatarUrl}
-                        alt={sty.name}
-                        fill
-                        sizes="112px"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-display text-xl text-[var(--color-ink-900)]">
-                        {sty.name}
-                      </h3>
-                      <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-ink-500)]">
-                        {sty.title}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap justify-center gap-2">
-                      {sty.specialties.map((sp) => (
-                        <span
-                          key={sp}
-                          className="rounded-full border border-[var(--color-mist-400)] bg-transparent px-3 py-1 text-xs text-[var(--color-ink-700)]"
-                        >
-                          {sp}
-                        </span>
-                      ))}
-                    </div>
-                    <Button asChild variant="outline" size="sm" className="mt-2">
-                      <Link href={`/team/${sty.slug}`}>
-                        Book with {firstName}
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+                <div key={sty.id} className="bg-[var(--color-surface)] p-12 text-center border border-[var(--color-outline-variant)]/10">
+                  <div className="w-24 h-24 rounded-full bg-[var(--color-surface-cream)] mx-auto mb-8 relative overflow-hidden">
+                    <Image
+                      src={sty.avatarUrl}
+                      alt={sty.name}
+                      fill
+                      sizes="96px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <h3 className="text-title-lg mb-1">{sty.name}</h3>
+                  <p className="text-label-caps text-[var(--color-outline)] mb-6">{sty.title.toUpperCase()}</p>
+                  <div className="flex flex-wrap justify-center gap-2 mb-8">
+                    {sty.specialties.slice(0, 2).map((sp) => (
+                      <span key={sp} className="px-3 py-1 border border-[var(--color-outline-variant)]/30 rounded-full text-[10px] font-sans uppercase tracking-[0.1em] font-medium">
+                        {sp}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    href={`/team/${sty.slug}`}
+                    className="text-label-caps text-[var(--color-primary)] border-b border-[var(--color-primary)]/20 pb-1 hover:border-[var(--color-primary)] transition-all"
+                  >
+                    Book with {firstName}
+                  </Link>
+                </div>
               );
             })}
-          </StaggerList>
-          <div className="mt-12 flex justify-center">
-            <Button asChild variant="outline" size="lg">
-              <Link href="/team">Meet everyone</Link>
-            </Button>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 sm:py-28">
-        <Container>
-          <FadeUp>
-            <SectionHeader
-              eyebrow={home.testimonialsHeader.eyebrow}
-              title={home.testimonialsHeader.title}
-            />
-          </FadeUp>
-          <StaggerList className="mt-12 grid gap-6 md:grid-cols-3">
-            {featuredTestimonials.map((t) => {
+      {/* ──── TESTIMONIALS + VALUES ──── */}
+      <section className="py-[var(--spacing-section-lg)] bg-[var(--color-surface)] relative overflow-hidden">
+        <div className="px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
+          <div className="mb-16">
+            <span className="text-label-caps text-[var(--color-outline)] block mb-4">WHAT GUESTS SAY</span>
+            <h2 className="text-headline-md max-w-2xl leading-tight">
+              A salon you&apos;d recommend to a friend who&apos;s careful about hers.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {testimonials.slice(0, 3).map((t) => {
               const svc = getServiceBySlug(t.serviceSlug);
               return (
-                <Card key={t.id} className="bg-[var(--color-bone-50)]">
-                  <CardContent className="flex flex-col gap-4 px-6 py-6">
-                    <div className="flex gap-1" aria-label={`${t.rating} out of 5 stars`}>
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className={
-                            i < t.rating
-                              ? "size-4 fill-[var(--color-terracotta-500)] text-[var(--color-terracotta-500)]"
-                              : "size-4 text-[var(--color-mist-400)]"
-                          }
-                          aria-hidden
-                        />
-                      ))}
-                    </div>
-                    <p className="font-display text-lg italic leading-snug text-[var(--color-ink-700)]">
-                      &ldquo;{t.text}&rdquo;
-                    </p>
-                    <div className="mt-2 flex flex-col gap-0.5 border-t border-[var(--color-mist-200)] pt-4">
-                      <p className="text-sm font-medium text-[var(--color-ink-900)]">
-                        {t.name}
-                      </p>
-                      {svc ? (
-                        <p className="text-xs text-[var(--color-ink-500)]">
-                          {svc.name}
-                        </p>
-                      ) : null}
-                    </div>
-                  </CardContent>
-                </Card>
+                <div key={t.id} className="flex flex-col gap-6 p-8 bg-[var(--color-surface-cream)] border border-[var(--color-outline-variant)]/10">
+                  <div className="flex gap-1 text-[var(--color-primary)]">
+                    {Array.from({ length: t.rating }).map((_, i) => (
+                      <svg key={i} width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-body-lg italic text-[var(--color-on-surface)]">
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                  <div>
+                    <p className="text-title-lg text-[var(--color-on-surface)]">{t.name}</p>
+                    {svc && <p className="text-label-caps text-[var(--color-outline)]">{svc.name.toUpperCase()}</p>}
+                  </div>
+                </div>
               );
             })}
-          </StaggerList>
-        </Container>
-      </section>
+          </div>
 
-      {/* Value props */}
-      <section className="border-y border-[var(--color-border)] bg-[var(--color-bone-100)] py-20 sm:py-28">
-        <Container>
-          <StaggerList className="grid gap-6 md:grid-cols-3">
+          {/* Values */}
+          <div className="mt-[var(--spacing-section-sm)] grid grid-cols-1 md:grid-cols-3 gap-[var(--spacing-gutter)]">
             {home.valueProps.map((vp) => (
-              <Card key={vp.title} className="bg-[var(--color-bone-50)]">
-                <CardContent className="flex flex-col gap-4 px-6 py-6">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-[var(--color-bone-200)] text-[var(--color-terracotta-700)]">
-                    {valuePropIcon(vp.icon)}
-                  </div>
-                  <h3 className="font-display text-xl text-[var(--color-ink-900)]">
-                    {vp.title}
-                  </h3>
-                  <p className="text-sm text-[var(--color-ink-500)]">
-                    {vp.blurb}
-                  </p>
-                </CardContent>
-              </Card>
+              <div key={vp.title} className="p-8 border-l border-[var(--color-outline-variant)]/20">
+                <h4 className="text-title-lg mb-3">{vp.title}</h4>
+                <p className="text-body-sm text-[var(--color-on-surface-variant)]">{vp.blurb}</p>
+              </div>
             ))}
-          </StaggerList>
-        </Container>
+          </div>
+        </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-20 sm:py-28">
-        <Container>
-          <FadeUp>
-            <div className="flex flex-col items-center gap-6 rounded-xl bg-[var(--color-ink-900)] px-8 py-16 text-center sm:py-20">
-              <h2 className="max-w-2xl font-display text-3xl leading-tight text-[var(--color-bone-50)] sm:text-4xl lg:text-5xl">
-                {home.finalCta.headline}
-              </h2>
-              <p className="max-w-xl text-base text-[var(--color-bone-200)] sm:text-lg">
-                {home.finalCta.subhead}
-              </p>
-              <Magnet strength={12}>
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-[var(--color-terracotta-500)] text-[var(--color-bone-50)] hover:bg-[var(--color-terracotta-700)] shadow-sm"
-                >
-                  <Link href={home.finalCta.href}>
-                    {home.finalCta.label}
-                    <ArrowRight className="ml-2 size-4" />
-                  </Link>
-                </Button>
-              </Magnet>
-            </div>
-          </FadeUp>
-        </Container>
+      {/* ──── FINAL CTA ──── */}
+      <section className="py-[var(--spacing-section-lg)] px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
+        <div className="relative bg-[var(--color-on-surface)] text-[var(--color-on-primary)] p-12 md:p-24 text-center overflow-hidden">
+          {/* Subtle dot pattern */}
+          <div
+            className="absolute inset-0 opacity-10 pointer-events-none"
+            style={{
+              backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <h2 className="text-headline-md mb-6 relative z-10">{home.finalCta.headline}</h2>
+          <p className="text-body-lg mb-10 text-[var(--color-surface-cream)]/80 max-w-md mx-auto relative z-10">
+            {home.finalCta.subhead}
+          </p>
+          <div className="relative z-10">
+            <Link
+              href={home.finalCta.href}
+              className="inline-block bg-[var(--color-primary)] text-[var(--color-on-primary)] px-10 py-5 text-label-caps hover:opacity-90 transition-all"
+            >
+              {home.finalCta.label}
+            </Link>
+          </div>
+        </div>
       </section>
-    </>
+    </main>
   );
 }

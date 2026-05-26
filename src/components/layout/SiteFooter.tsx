@@ -2,19 +2,14 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Instagram, Bookmark, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 const HOURS = [
-  { day: "Mon", value: "Closed" },
-  { day: "Tue", value: "10:00–20:00" },
-  { day: "Wed", value: "10:00–20:00" },
-  { day: "Thu", value: "10:00–20:00" },
-  { day: "Fri", value: "10:00–21:00" },
-  { day: "Sat", value: "09:00–20:00" },
-  { day: "Sun", value: "10:00–18:00" },
+  { day: "Mon", value: "Closed", muted: true },
+  { day: "Tue – Thu", value: "10:00–20:00", muted: false },
+  { day: "Fri", value: "10:00–21:00", muted: false },
+  { day: "Sat", value: "09:00–20:00", muted: false },
+  { day: "Sun", value: "10:00–18:00", muted: false },
 ];
 
 export function SiteFooter() {
@@ -31,83 +26,93 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="bg-[var(--color-ink-900)] py-16 text-[var(--color-bone-100)]">
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-12">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <Link href="/" className="font-display text-3xl text-[var(--color-bone-50)]">
-              Aura
-            </Link>
-            <p className="mt-3 text-sm text-[var(--color-bone-100)]/80">
-              A destination salon in the West Village. Hair, nails, skin, and bodywork by people who take the time.
-            </p>
-            <div className="mt-4 flex gap-3">
-              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-full p-2 transition-colors hover:bg-white/10">
-                <Instagram className="size-4" />
-              </Link>
-              <Link href="https://pinterest.com" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" className="rounded-full p-2 transition-colors hover:bg-white/10">
-                <Bookmark className="size-4" />
-              </Link>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="font-display text-lg text-[var(--color-bone-50)]">Visit</h4>
-            <address className="mt-3 not-italic text-sm text-[var(--color-bone-100)]/80">
-              342 Bleecker Street<br />
-              Ground Floor<br />
-              New York, NY 10014
-            </address>
-            <p className="mt-3 text-sm text-[var(--color-bone-100)]/80">
-              <a href="tel:+12125550148" className="hover:text-[var(--color-bone-50)]">+1 (212) 555-0148</a><br />
-              <a href="mailto:hello@aurasalon.example" className="hover:text-[var(--color-bone-50)]">hello@aurasalon.example</a>
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-display text-lg text-[var(--color-bone-50)]">Hours</h4>
-            <ul className="mt-3 space-y-1 text-sm text-[var(--color-bone-100)]/80">
-              {HOURS.map((h) => (
-                <li key={h.day} className="flex justify-between gap-4">
-                  <span>{h.day}</span>
-                  <span className={h.value === "Closed" ? "text-[var(--color-bone-100)]/50" : ""}>{h.value}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display text-lg text-[var(--color-bone-50)]">Newsletter</h4>
-            <p className="mt-3 text-sm text-[var(--color-bone-100)]/80">
-              Seasonal notes and occasional appointments. No more than once a month.
-            </p>
-            <form onSubmit={onSubmit} className="mt-4 flex gap-2">
-              <label htmlFor="footer-newsletter" className="sr-only">Email address</label>
-              <Input
-                id="footer-newsletter"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                className="bg-white/5 text-[var(--color-bone-50)] placeholder:text-[var(--color-bone-100)]/40 border-white/10"
-              />
-              <Button type="submit" size="icon" variant="secondary" aria-label="Subscribe">
-                <Send className="size-4" />
-              </Button>
-            </form>
-          </div>
+    <footer className="bg-[var(--color-surface-cream)] w-full mt-[var(--spacing-section-lg)]">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-[var(--spacing-gutter)] px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] py-[var(--spacing-section-sm)] max-w-[1200px] mx-auto">
+        {/* Brand */}
+        <div className="col-span-1">
+          <Link href="/" className="text-headline-sm text-[var(--color-on-surface)] block mb-6">
+            Aura
+          </Link>
+          <p className="text-body-sm text-[var(--color-on-surface-variant)] mb-6">
+            A destination salon in the West Village. Hair, nails, skin, and bodywork by people who take the time.
+          </p>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-6 text-xs text-[var(--color-bone-100)]/60">
-          <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p>© 2026 Aura Salon & Spa</p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#" className="hover:text-[var(--color-bone-50)]">Cancellation</a>
-              <a href="#" className="hover:text-[var(--color-bone-50)]">Privacy</a>
-              <a href="#" className="hover:text-[var(--color-bone-50)]">Terms</a>
-              <a href="#" className="hover:text-[var(--color-bone-50)]">Accessibility</a>
-            </div>
-          </div>
+        {/* Visit */}
+        <div>
+          <h4 className="text-label-caps text-[var(--color-on-surface)] mb-8">VISIT</h4>
+          <address className="not-italic text-body-sm text-[var(--color-on-surface-variant)] leading-relaxed">
+            342 Bleecker Street<br />
+            Ground Floor<br />
+            New York, NY 10014<br /><br />
+            <a href="tel:+12125550148" className="hover:text-[var(--color-primary)] transition-colors">
+              +1 (212) 555-0148
+            </a><br />
+            <a href="mailto:hello@aurasalon.example" className="hover:text-[var(--color-primary)] transition-colors">
+              hello@aurasalon.example
+            </a>
+          </address>
+        </div>
+
+        {/* Hours */}
+        <div>
+          <h4 className="text-label-caps text-[var(--color-on-surface)] mb-8">HOURS</h4>
+          <ul className="text-body-sm text-[var(--color-on-surface-variant)] space-y-2">
+            {HOURS.map((h) => (
+              <li key={h.day} className="flex justify-between">
+                <span>{h.day}</span>
+                <span className={h.muted ? "text-[var(--color-outline)]" : ""}>
+                  {h.value}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Newsletter */}
+        <div>
+          <h4 className="text-label-caps text-[var(--color-on-surface)] mb-8">NEWSLETTER</h4>
+          <p className="text-body-sm text-[var(--color-on-surface-variant)] mb-6">
+            Seasonal notes and occasional appointments. No more than once a month.
+          </p>
+          <form onSubmit={onSubmit} className="relative">
+            <label htmlFor="footer-email" className="sr-only">Email address</label>
+            <input
+              id="footer-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+              className="w-full bg-[var(--color-surface)] border-none border-b border-[var(--color-outline-variant)]/30 px-0 py-3 text-body-sm focus:ring-0 focus:border-[var(--color-primary)] transition-all placeholder:text-[var(--color-outline)]"
+            />
+            <button
+              type="submit"
+              className="absolute right-0 top-1/2 -translate-y-1/2 text-[var(--color-primary)] hover:opacity-70 transition-opacity"
+              aria-label="Subscribe"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] py-10 border-t border-[var(--color-outline-variant)]/10 max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        <p className="text-body-sm text-[var(--color-outline)]">
+          © {new Date().getFullYear()} Aura Salon &amp; Spa. All rights reserved.
+        </p>
+        <div className="flex gap-8">
+          {["Location", "Hours", "Newsletter", "Privacy Policy"].map((item) => (
+            <a
+              key={item}
+              href="#"
+              className="text-label-caps text-[var(--color-on-secondary-container)] hover:text-[var(--color-primary)] transition-colors"
+            >
+              {item}
+            </a>
+          ))}
         </div>
       </div>
     </footer>

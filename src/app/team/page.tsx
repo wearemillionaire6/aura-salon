@@ -1,36 +1,29 @@
-import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Instagram } from "lucide-react";
-import { Container } from "@/components/layout/Container";
-import { PageHero } from "@/components/layout/PageHero";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { stylists } from "@/data";
-
-export const metadata = { title: "Our Team" };
+import { stylists, services } from "@/data";
 
 export default function TeamPage() {
   return (
-    <>
-      <PageHero
-        eyebrow="The team"
-        headline="The people who'll actually be at your appointment."
-        subhead="Six stylists. One floor. Each picked for their hands and for the way they listen."
-      />
+    <main className="pt-32">
+      {/* Hero */}
+      <header className="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] mb-[var(--spacing-section-lg)]">
+        <span className="text-label-caps text-[var(--color-primary)] mb-4 block">The Team</span>
+        <h1 className="text-display-lg-mobile md:text-display-lg max-w-3xl mb-6">People, not positions.</h1>
+        <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl">
+          Every stylist at Aura takes their own consultations, manages their own bookings, and signs off on the result.
+        </p>
+      </header>
 
-      <section className="bg-[var(--color-bone-50)] py-20 sm:py-24">
-        <Container>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* Stylist grid */}
+      <section className="py-[var(--spacing-section-sm)] bg-[var(--color-surface-cream)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-gutter)]">
             {stylists.map((sty) => {
               const firstName = sty.name.split(" ")[0];
               return (
-                <Card
-                  key={sty.id}
-                  className="overflow-hidden bg-[var(--color-bone-50)] py-0 shadow-sm transition-shadow hover:shadow-md"
-                >
-                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--color-bone-200)]">
+                <div key={sty.id} className="bg-[var(--color-surface)] border border-[var(--color-outline-variant)]/10 overflow-hidden">
+                  {/* Portrait */}
+                  <div className="relative aspect-[3/4] bg-[var(--color-surface-cream)] overflow-hidden">
                     <Image
                       src={sty.avatarUrl}
                       alt={sty.name}
@@ -39,55 +32,39 @@ export default function TeamPage() {
                       className="object-cover"
                     />
                   </div>
-                  <CardContent className="flex flex-col gap-4 py-6">
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-display text-2xl leading-tight text-[var(--color-ink-900)]">
-                        {sty.name}
-                      </h3>
-                      <p className="text-sm italic text-[var(--color-ink-500)]">
-                        {sty.title}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {sty.specialties.slice(0, 3).map((spec) => (
-                        <Badge
-                          key={spec}
-                          variant="outline"
-                          className="bg-[var(--color-bone-100)]"
-                        >
-                          {spec}
-                        </Badge>
-                      ))}
-                    </div>
-                    <p className="line-clamp-2 text-sm text-[var(--color-ink-500)]">
+
+                  {/* Info */}
+                  <div className="p-8 text-center">
+                    <h3 className="text-title-lg mb-1">{sty.name}</h3>
+                    <p className="text-label-caps text-[var(--color-outline)] mb-4">{sty.title.toUpperCase()}</p>
+                    <p className="text-body-sm text-[var(--color-on-surface-variant)] mb-6 line-clamp-3">
                       {sty.bio}
                     </p>
-                    <Link
-                      href={`https://instagram.com/${sty.instagramHandle.replace(/^@/, "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs text-[var(--color-ink-500)] transition-colors hover:text-[var(--color-terracotta-500)]"
-                    >
-                      <Instagram className="size-3.5" aria-hidden />
-                      {sty.instagramHandle}
-                    </Link>
-                    <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={`/team/${sty.slug}`}>View profile</Link>
-                      </Button>
-                      <Button asChild size="sm">
-                        <Link href={`/book?stylist=${sty.slug}`}>
-                          {`Book with ${firstName}`}
-                        </Link>
-                      </Button>
+
+                    {/* Specialties */}
+                    <div className="flex flex-wrap justify-center gap-2 mb-8">
+                      {sty.specialties.slice(0, 3).map((sp) => (
+                        <span key={sp} className="px-3 py-1 border border-[var(--color-outline-variant)]/30 rounded-full text-[10px] font-sans uppercase tracking-[0.1em] font-medium">
+                          {sp}
+                        </span>
+                      ))}
                     </div>
-                  </CardContent>
-                </Card>
+
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <Link
+                        href={`/team/${sty.slug}`}
+                        className="text-label-caps text-[var(--color-primary)] border-b border-[var(--color-primary)]/20 pb-1 hover:border-[var(--color-primary)] transition-all"
+                      >
+                        Book with {firstName}
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               );
             })}
           </div>
-        </Container>
+        </div>
       </section>
-    </>
+    </main>
   );
 }

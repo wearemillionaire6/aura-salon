@@ -8,7 +8,7 @@ import "./globals.css";
 const fontDisplay = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -16,27 +16,25 @@ const fontDisplay = Fraunces({
 const fontSans = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Aura Salon & Spa",
-    template: "%s · Aura Salon & Spa",
+    default: "Aura Salon & Spa | West Village",
+    template: "%s | Aura Salon & Spa",
   },
-  description: "A destination salon for confident, considered beauty. Hair, nails, skin, and bodywork in the West Village.",
+  description: "A destination salon for the way you actually live. Hair, nails, skin, and bodywork in a quiet, considered space in the West Village.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${fontDisplay.variable} ${fontSans.variable}`}>
-      <body className="min-h-screen bg-[var(--color-background)] text-[var(--color-foreground)] antialiased">
-        <div className="flex min-h-screen flex-col">
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-        </div>
+    <html lang="en" className={`${fontDisplay.variable} ${fontSans.variable} scroll-smooth`}>
+      <body className="min-h-screen bg-[var(--color-background)] text-[var(--color-on-surface)] font-sans antialiased">
+        <SiteHeader />
+        {children}
+        <SiteFooter />
         <Toaster position="bottom-right" richColors closeButton />
       </body>
     </html>

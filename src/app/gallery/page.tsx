@@ -2,136 +2,107 @@
 
 import * as React from "react";
 import Image from "next/image";
-
-import { Container } from "@/components/layout/Container";
-import { PageHero } from "@/components/layout/PageHero";
-import { FadeUp } from "@/components/motion";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { gallery } from "@/data";
-import { galleryIntros } from "@/content";
+import { gallery, type GalleryImage } from "@/data";
 import { cn } from "@/lib/utils";
 
-type Category = keyof typeof galleryIntros;
-
-const categories: Category[] = ["All", "Hair", "Nails", "Skin", "Spa", "Interior"];
+const CATEGORIES = ["All", "Hair", "Nails", "Skin", "Spa"] as const;
 
 export default function GalleryPage() {
-  const [selected, setSelected] = React.useState<Category>("All");
+  const [active, setActive] = React.useState<(typeof CATEGORIES)[number]>("All");
+  const [lightbox, setLightbox] = React.useState<GalleryImage | null>(null);
 
-  const filtered = React.useMemo(() => {
-    if (selected === "All") return gallery;
-    return gallery.filter((img) => img.category === selected);
-  }, [selected]);
-
-  const intro = galleryIntros[selected];
+  const filtered = active === "All" ? gallery : gallery.filter((g) => g.category === active);
 
   return (
-    <>
-      <PageHero
-        eyebrow={galleryIntros.All.eyebrow}
-        headline={galleryIntros.All.title}
-        subhead={galleryIntros.All.subhead}
-      />
+    <main className="pt-32">
+      {/* Hero */}
+      <header className="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] mb-16">
+        <span className="text-label-caps text-[var(--color-primary)] mb-4 block">Gallery</span>
+        <h1 className="text-display-lg-mobile md:text-display-lg max-w-3xl mb-6">The work, close up.</h1>
+        <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl">
+          Real clients, natural light, zero retouching. Filtered by category or browse them all.
+        </p>
+      </header>
 
-      <section className="py-12 sm:py-16">
-        <Container>
-          {/* Filter row */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => {
-              const active = cat === selected;
-              return (
-                <Button
-                  key={cat}
-                  type="button"
-                  variant={active ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelected(cat)}
-                  className={cn(
-                    active &&
-                      "bg-[var(--color-terracotta-500)] text-[var(--color-bone-50)] hover:bg-[var(--color-terracotta-700)]",
-                  )}
-                  aria-pressed={active}
-                >
-                  {cat}
-                </Button>
-              );
-            })}
-          </div>
-
-          {/* Intro for current filter */}
-          <FadeUp>
-            <div className="mt-10 max-w-2xl">
-              <p className="text-xs font-sans uppercase tracking-[0.22em] text-[var(--color-ink-500)]">
-                {intro.eyebrow}
-              </p>
-              <h2 className="mt-2 font-display text-2xl text-[var(--color-ink-900)] sm:text-3xl">
-                {intro.title}
-              </h2>
-              <p className="mt-3 text-base text-[var(--color-ink-500)]">
-                {intro.subhead}
-              </p>
-            </div>
-          </FadeUp>
-        </Container>
-      </section>
+      {/* Category pills */}
+      <div className="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] mb-12">
+        <div className="flex gap-3 overflow-x-auto pb-2">
+          {CATEGORIES.map((cat) => {
+            const count = cat === "All" ? gallery.length : gallery.filter((g) => g.category === cat).length;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActive(cat)}
+                className={cn(
+                  "flex-shrink-0 px-6 py-3 text-label-caps transition-all duration-200",
+                  active === cat
+                    ? "bg-[var(--color-on-surface)] text-[var(--color-on-primary)]"
+                    : "border border-[var(--color-outline-variant)]/30 text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-cream)]",
+                )}
+              >
+                {cat} ({count})
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Grid */}
-      <section className="pb-20 sm:pb-28">
-        <Container>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {filtered.map((img) => (
-              <Dialog key={img.id}>
-                <DialogTrigger asChild>
-                  <button
-                    type="button"
-                    className="group relative block aspect-[3/4] w-full overflow-hidden rounded-lg bg-[var(--color-bone-200)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ring)]"
-                    aria-label={img.alt}
-                  >
-                    <Image
-                      src={img.imageUrl}
-                      alt={img.alt}
-                      fill
-                      sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                    />
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-3xl">
-                  <DialogTitle className="sr-only">{img.alt}</DialogTitle>
-                  <DialogDescription className="sr-only">
-                    {img.caption ?? img.alt}
-                  </DialogDescription>
-                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md bg-[var(--color-bone-200)]">
-                    <Image
-                      src={img.imageUrl}
-                      alt={img.alt}
-                      fill
-                      sizes="(min-width: 1024px) 768px, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <p className="text-sm text-[var(--color-ink-500)]">
-                    {img.caption ?? img.alt}
-                  </p>
-                </DialogContent>
-              </Dialog>
-            ))}
-          </div>
-
-          {filtered.length === 0 ? (
-            <p className="mt-10 text-center text-sm text-[var(--color-ink-500)]">
-              Nothing here yet for this category. Check back soon.
-            </p>
-          ) : null}
-        </Container>
+      <section className="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] pb-[var(--spacing-section-lg)]">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {filtered.map((img) => (
+            <button
+              key={img.id}
+              type="button"
+              onClick={() => setLightbox(img)}
+              className="group relative aspect-square overflow-hidden bg-[var(--color-surface-cream)]"
+            >
+              <Image
+                src={img.imageUrl}
+                alt={img.alt}
+                fill
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-[var(--color-on-surface)]/0 group-hover:bg-[var(--color-on-surface)]/30 transition-colors duration-300" />
+            </button>
+          ))}
+        </div>
       </section>
-    </>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-on-surface)]/90 backdrop-blur-sm p-6"
+          onClick={() => setLightbox(null)}
+        >
+          <div className="relative max-h-[85vh] max-w-[85vw]" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={lightbox.imageUrl}
+              alt={lightbox.alt}
+              width={1200}
+              height={900}
+              className="max-h-[85vh] w-auto object-contain"
+            />
+            <button
+              type="button"
+              onClick={() => setLightbox(null)}
+              className="absolute -top-4 -right-4 w-8 h-8 flex items-center justify-center bg-[var(--color-surface)] text-[var(--color-on-surface)] shadow-md"
+              aria-label="Close"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+            {lightbox.caption && (
+              <p className="mt-4 text-center text-body-sm text-[var(--color-surface-cream)]/70">
+                {lightbox.caption}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+    </main>
   );
 }
