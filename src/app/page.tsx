@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { home } from "@/content";
 import { services, stylists, testimonials, getServiceBySlug } from "@/data";
+import { InteractiveImageAccordion } from "@/components/ui/interactive-image-accordion";
 
 function pickFeaturedServices() {
   const slugs = [
@@ -73,39 +74,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ──── CATEGORIES ──── */}
-      <section className="bg-[var(--color-surface-cream)] py-[var(--spacing-section-lg)] overflow-hidden">
-        <div className="px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-label-caps text-[var(--color-outline)] block mb-4">WHAT WE DO</span>
-            <h2 className="text-headline-md mb-4">Care, by hand.</h2>
-            <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl mx-auto">
-              Hair, nails, skin, and bodywork. Four categories, one room, one bookable calendar.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[var(--spacing-gutter)]">
-            {[
-              { label: "Hair", blurb: "Cuts, lived-in color, and considered finishes.", image: "/images/categories/hair.png" },
-              { label: "Nails", blurb: "Dry-prep manicures, restorative pedicures.", image: "/images/categories/nails.png" },
-              { label: "Skin", blurb: "Facials, microcurrent, dermaplane.", image: "/images/categories/skin.png" },
-              { label: "Spa", blurb: "Massage, body wraps, slow appointments.", image: "/images/categories/spa.png" },
-            ].map((c) => (
-              <Link
-                key={c.label}
-                href={`/services?category=${c.label}`}
-                className="group bg-[var(--color-surface)] p-10 flex flex-col justify-between h-64 border border-[var(--color-outline-variant)]/10 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="flex justify-between items-start">
-                  <h3 className="text-headline-sm">{c.label}</h3>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[var(--color-outline)] group-hover:text-[var(--color-primary)] transition-colors">
-                    <path d="M12 5v14M5 12h14" />
-                  </svg>
-                </div>
-                <p className="text-body-sm text-[var(--color-on-surface-variant)]">{c.blurb}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
+      {/* ──── CATEGORIES — Interactive Accordion ──── */}
+      <section className="bg-[var(--color-surface-cream)] overflow-hidden">
+        <InteractiveImageAccordion />
       </section>
 
       {/* ──── FEATURED SERVICES ──── */}
