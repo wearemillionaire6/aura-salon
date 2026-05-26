@@ -4,12 +4,38 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { MenuBar } from "@/components/ui/glow-menu";
+import { Home, Sparkles, Users, Image as ImageIcon } from "lucide-react";
 
-const NAV = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Team", href: "/team" },
-  { label: "Gallery", href: "/gallery" },
+const NAV_ITEMS = [
+  {
+    icon: Home,
+    label: "Home",
+    href: "/",
+    gradient: "radial-gradient(circle, rgba(135,77,48,0.12) 0%, rgba(135,77,48,0.04) 50%, rgba(135,77,48,0) 100%)",
+    iconColor: "text-[var(--color-primary)]",
+  },
+  {
+    icon: Sparkles,
+    label: "Services",
+    href: "/services",
+    gradient: "radial-gradient(circle, rgba(135,77,48,0.12) 0%, rgba(135,77,48,0.04) 50%, rgba(135,77,48,0) 100%)",
+    iconColor: "text-[var(--color-primary)]",
+  },
+  {
+    icon: Users,
+    label: "Team",
+    href: "/team",
+    gradient: "radial-gradient(circle, rgba(135,77,48,0.12) 0%, rgba(135,77,48,0.04) 50%, rgba(135,77,48,0) 100%)",
+    iconColor: "text-[var(--color-primary)]",
+  },
+  {
+    icon: ImageIcon,
+    label: "Gallery",
+    href: "/gallery",
+    gradient: "radial-gradient(circle, rgba(135,77,48,0.12) 0%, rgba(135,77,48,0.04) 50%, rgba(135,77,48,0) 100%)",
+    iconColor: "text-[var(--color-primary)]",
+  },
 ];
 
 export function SiteHeader() {
@@ -28,6 +54,14 @@ export function SiteHeader() {
     setMobileOpen(false);
   }, [pathname]);
 
+  const activeItem = React.useMemo(() => {
+    if (pathname === "/") return "Home";
+    if (pathname.startsWith("/services")) return "Services";
+    if (pathname.startsWith("/team")) return "Team";
+    if (pathname.startsWith("/gallery")) return "Gallery";
+    return "";
+  }, [pathname]);
+
   return (
     <header
       className={cn(
@@ -38,35 +72,17 @@ export function SiteHeader() {
       )}
     >
       <nav className="flex justify-between items-center h-20 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-gutter)] max-w-[1200px] mx-auto">
-        {/* Logo */}
+        {/* Logo — Bold, tracked-out aesthetic branding */}
         <Link
           href="/"
-          className="text-headline-sm tracking-tight text-[var(--color-on-surface)] hover:opacity-80 transition-opacity"
+          className="text-2xl font-bold tracking-[0.25em] text-[var(--color-on-surface)] hover:opacity-80 transition-opacity font-display"
         >
-          Aura Salon &amp; Spa
+          AURA
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {NAV.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
-            const isHome = item.href === "/" && pathname === "/";
-            const active = isActive || isHome;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "text-label-caps transition-colors",
-                  active
-                    ? "text-[var(--color-primary)] border-b-2 border-[var(--color-primary)] pb-1"
-                    : "text-[var(--color-on-secondary-container)] hover:text-[var(--color-primary)]",
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+        {/* Desktop nav — Glow Menu with custom radial gradients and glassmorphism */}
+        <div className="hidden md:flex items-center gap-6">
+          <MenuBar items={NAV_ITEMS} activeItem={activeItem} />
           <Link
             href="/book"
             className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-3 text-label-caps hover:opacity-90 active:scale-95 transition-all"
@@ -96,7 +112,7 @@ export function SiteHeader() {
       {mobileOpen && (
         <div className="md:hidden bg-[var(--color-surface)] border-t border-[var(--color-outline-variant)]/10 px-[var(--spacing-margin-mobile)] py-6">
           <div className="flex flex-col gap-4">
-            {NAV.map((item) => (
+            {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
