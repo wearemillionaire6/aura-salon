@@ -52,7 +52,7 @@
     "includes": ["Bowl shampoo", "Gloss application", "Bond seal", "Quick blow-out"],
     "addOnIds": ["addon-deep-condition", "addon-scalp-ritual"],
     "eligibleStylistIds": ["sty-elena", "sty-marcus", "sty-priya"],
-    "image": "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?w=1200&q=80"
+    "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80"
   },
   {
     "id": "svc-bridal-hair",
@@ -92,7 +92,7 @@
     "includes": ["Warm soak", "Exfoliation", "Callus & nail care", "Lower-leg massage", "Polish"],
     "addOnIds": ["addon-paraffin", "addon-french-finish"],
     "eligibleStylistIds": ["sty-jules"],
-    "image": "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=1200&q=80"
+    "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=1200&q=80"
   },
   {
     "id": "svc-gel-manicure",
@@ -144,7 +144,7 @@
     "includes": ["Cleanse", "Dermaplane pass", "Brightening mask", "Hydrating serum", "SPF"],
     "addOnIds": ["addon-led-boost"],
     "eligibleStylistIds": ["sty-naomi"],
-    "image": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=1200&q=80"
+    "image": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&q=80"
   },
   {
     "id": "svc-massage-60",
@@ -157,7 +157,7 @@
     "includes": ["Intake & pressure preference", "Full-body massage", "Warm towels", "Optional aromatherapy"],
     "addOnIds": ["addon-cbd-balm", "addon-hot-stones"],
     "eligibleStylistIds": ["sty-theo"],
-    "image": "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=1200&q=80"
+    "image": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&q=80"
   },
   {
     "id": "svc-massage-90",
@@ -183,6 +183,6 @@
     "includes": ["Body brush", "Sugar polish", "Rinse", "Hydration wrap", "Scalp & foot massage"],
     "addOnIds": ["addon-cbd-balm"],
     "eligibleStylistIds": ["sty-theo"],
-    "image": "https://images.unsplash.com/photo-1591343395082-e120087004b4?w=1200&q=80"
+    "image": "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=1200&q=80"
   }
 ]

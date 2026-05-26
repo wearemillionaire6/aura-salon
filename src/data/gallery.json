@@ -1,95 +1,82 @@
 [
   {
     "id": "gal-001",
-    "imageUrl": "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=1200&q=80",
-    "alt": "Long honey balayage falling over the shoulder, soft beachy waves",
+    "imageUrl": "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=1200&q=80",
+    "alt": "Stylist performing precision cut and styling on client in a bright salon",
     "category": "Hair",
     "stylistId": "sty-elena",
-    "caption": "Hand-painted balayage on natural brunette by Elena"
+    "caption": "Precision styling and blowout by Elena"
   },
   {
     "id": "gal-002",
-    "imageUrl": "https://images.unsplash.com/photo-1522336572468-97b06e8ef143?w=1200&q=80",
-    "alt": "Sharp chin-length bob with a glossy, blunt finish",
+    "imageUrl": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80",
+    "alt": "Client having their hair washed and massaged in a salon basin",
     "category": "Hair",
     "stylistId": "sty-marcus",
-    "caption": "Precision blunt bob, slate brown"
+    "caption": "Scalp massage and conditioning rinse by Marcus"
   },
   {
     "id": "gal-003",
-    "imageUrl": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=1200&q=80",
-    "alt": "Defined natural curls shaped into a rounded silhouette",
+    "imageUrl": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&q=80",
+    "alt": "Client receiving color foils at the salon station",
     "category": "Hair",
-    "stylistId": "sty-marcus",
-    "caption": "Shaped 3C curls, no heat finish"
+    "stylistId": "sty-priya",
+    "caption": "Highlights formulation and foils placement by Priya"
   },
   {
     "id": "gal-004",
     "imageUrl": "https://images.unsplash.com/photo-1595956553066-fe24a8c33395?w=1200&q=80",
-    "alt": "Low chignon bridal updo with a few loose face-framing pieces",
+    "alt": "Detailing a low chignon bridal updo hairstyle",
     "category": "Hair",
     "stylistId": "sty-elena",
-    "caption": "Low chignon for a backyard wedding"
+    "caption": "Bridal styling updo trial by Elena"
   },
   {
     "id": "gal-005",
     "imageUrl": "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80",
-    "alt": "Almond-shaped natural nails in a soft cream polish",
+    "alt": "Almond-shaped manicured nails being polished with a soft neutral tone",
     "category": "Nails",
     "stylistId": "sty-jules",
-    "caption": "Cream almond gel set"
+    "caption": "Classic dry-prep manicure by Jules"
   },
   {
     "id": "gal-006",
     "imageUrl": "https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=1200&q=80",
-    "alt": "Short square nails with a deep burgundy gel finish",
+    "alt": "Close up of gel manicured nails finished with clear oil",
     "category": "Nails",
     "stylistId": "sty-jules",
-    "caption": "Short square in oxblood"
+    "caption": "Gel manicure and cuticle care by Jules"
   },
   {
     "id": "gal-007",
     "imageUrl": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&q=80",
-    "alt": "Client receiving facial massage with cold glass globes",
+    "alt": "Client receiving a facial massage and skin treatment",
     "category": "Skin",
     "stylistId": "sty-naomi",
-    "caption": "Cold globe finish on the Aura Facial"
+    "caption": "Lymphatic facial massage by Naomi"
   },
   {
     "id": "gal-008",
-    "imageUrl": "https://images.unsplash.com/photo-1596178065887-1198b6148b2b?w=1200&q=80",
-    "alt": "Microcurrent wands being applied along the jawline",
+    "imageUrl": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=1200&q=80",
+    "alt": "Aesthetic facial mask application during skincare session",
     "category": "Skin",
     "stylistId": "sty-naomi",
-    "caption": "Microcurrent sculpt along the jaw"
+    "caption": "Brightening enzyme mask application by Naomi"
   },
   {
     "id": "gal-009",
     "imageUrl": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&q=80",
-    "alt": "Hands kneading shoulder muscles during a massage on a draped client",
+    "alt": "Therapist performing deep tissue back massage with massage oil",
     "category": "Spa",
     "stylistId": "sty-theo",
-    "caption": "Deep tissue work across the trap line"
+    "caption": "Deep tissue massage session by Theo"
   },
   {
     "id": "gal-010",
     "imageUrl": "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=1200&q=80",
-    "alt": "Massage table with rolled towels and warm lamp lighting",
+    "alt": "Massage table setup with rolled towels in a dimly lit spa room",
     "category": "Spa",
-    "caption": "Spa room set for a 90-minute session"
-  },
-  {
-    "id": "gal-011",
-    "imageUrl": "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1200&q=80",
-    "alt": "Salon front desk in warm oak with a brass pendant lamp overhead",
-    "category": "Interior",
-    "caption": "The front desk at Aura"
-  },
-  {
-    "id": "gal-012",
-    "imageUrl": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=1200&q=80",
-    "alt": "Row of styling stations with arched mirrors and matte black sconces",
-    "category": "Interior",
-    "caption": "Styling floor, late afternoon"
+    "stylistId": "sty-theo",
+    "caption": "Spa treatment room setup"
   }
 ]
