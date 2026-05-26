@@ -85,7 +85,7 @@ export function SiteHeader() {
           <MenuBar items={NAV_ITEMS} activeItem={activeItem} />
           <Link
             href="/book"
-            className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-3 text-label-caps hover:opacity-90 active:scale-95 transition-all"
+            className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-7 py-3 text-label-caps rounded-full hover:opacity-90 active:scale-95 transition-all shadow-md hover:shadow-lg"
           >
             Book Now
           </Link>
@@ -124,7 +124,7 @@ export function SiteHeader() {
             ))}
             <Link
               href="/book"
-              className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-3 text-label-caps text-center hover:opacity-90 transition-all mt-2"
+              className="bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-3 text-label-caps text-center rounded-full hover:opacity-90 transition-all mt-2"
               onClick={() => setMobileOpen(false)}
             >
               Book Now

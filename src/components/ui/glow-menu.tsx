@@ -85,7 +85,7 @@ export const MenuBar = React.forwardRef<HTMLElement, MenuBarProps>(
           } to-transparent rounded-3xl z-0 pointer-events-none`}
           variants={navGlowVariants}
         />
-        <ul className="flex items-center gap-2 relative z-10">
+        <ul className="flex items-center gap-5 relative z-10">
           {items.map((item) => {
             const Icon = item.icon;
             const isActive = item.label.toLowerCase() === activeItem?.toLowerCase();
@@ -110,12 +110,12 @@ export const MenuBar = React.forwardRef<HTMLElement, MenuBarProps>(
                       style={{
                         background: item.gradient,
                         opacity: isActive ? 1 : 0,
-                        borderRadius: "16px",
+                        borderRadius: "12px",
                       }}
                     />
                     <motion.div
                       className={cn(
-                        "flex items-center gap-2 px-4 py-2 relative z-10 bg-transparent transition-colors rounded-xl text-sm font-sans tracking-wide",
+                        "flex items-center gap-3 px-8 py-3 relative z-10 bg-transparent transition-colors rounded-xl text-sm font-sans tracking-wide",
                         isActive
                           ? "text-[var(--color-on-surface)]"
                           : "text-[var(--color-on-secondary-container)] group-hover:text-[var(--color-primary)]",
@@ -140,7 +140,7 @@ export const MenuBar = React.forwardRef<HTMLElement, MenuBarProps>(
                     </motion.div>
                     <motion.div
                       className={cn(
-                        "flex items-center gap-2 px-4 py-2 absolute inset-0 z-10 bg-transparent transition-colors rounded-xl text-sm font-sans tracking-wide",
+                        "flex items-center gap-3 px-8 py-3 absolute inset-0 z-10 bg-transparent transition-colors rounded-xl text-sm font-sans tracking-wide",
                         isActive
                           ? "text-[var(--color-on-surface)]"
                           : "text-[var(--color-on-secondary-container)] group-hover:text-[var(--color-primary)]",
