@@ -53,9 +53,9 @@
   --color-destructive-foreground: var(--color-on-error);
 
   /* Typography stacks */
-  --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Inter", "Söhne", system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-display), "Bricolage Grotesque", "Fraunces", serif;
+  --font-sans: var(--font-sans), "Manrope", "Inter", sans-serif;
+  --font-mono: var(--font-mono), "DM Mono", monospace;
 
   /* Spacing tokens from reference */
   --spacing-section-sm: 64px;
@@ -162,10 +162,10 @@
     font-weight: 400;
   }
   .text-label-caps {
-    font-family: var(--font-sans);
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
     line-height: 1;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     font-weight: 500;
     text-transform: uppercase;
   }
